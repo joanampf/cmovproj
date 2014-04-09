@@ -9,7 +9,7 @@
     tools:context=".JogoActivity" >
 
     <!-- comentario pa joana -->
-    
+
     <LinearLayout
         android:id="@+id/dataLayout"
         android:layout_width="wrap_content"
@@ -55,6 +55,18 @@
             android:text="Number Players"
             android:textSize="20sp" />
     </LinearLayout>
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            class="pt.tecnico.cmov.bomberman.telajogo.TelaJogo" />
+    </GridLayout>
+
 
     <RelativeLayout
         android:id="@+id/moveLayout"
@@ -114,8 +126,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/button1"
             android:layout_alignParentBottom="true"
-            android:text="Quit"
-            android:onClick="quit" />
+            android:onClick="quit"
+            android:text="Quit" />
 
         <Button
             android:id="@+id/pauseplay"
@@ -125,7 +137,6 @@
             android:layout_alignTop="@+id/botaocima"
             android:onClick="pausePlay"
             android:text="Pause" />
-
     </RelativeLayout>
 
 </RelativeLayout>

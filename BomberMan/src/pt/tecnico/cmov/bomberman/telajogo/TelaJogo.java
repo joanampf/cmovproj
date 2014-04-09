@@ -12,13 +12,14 @@ public class TelaJogo extends View{
 
 	public TelaJogo(Context context) {
 		super(context);
-		
-		paint = new Paint();
+		setMinimumHeight(100);
+		setMinimumWidth(100);
+//		paint = new Paint();
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-		paint.setColor(Color.GRAY);
+		canvas.drawColor(Color.GRAY);
 		super.onDraw(canvas);
 	}
 	
