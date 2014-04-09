@@ -59,7 +59,7 @@
     <RelativeLayout
         android:id="@+id/moveLayout"
         android:layout_width="wrap_content"
-        android:layout_height="161dp"
+        android:layout_height="171dp"
         android:layout_alignParentBottom="true"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"

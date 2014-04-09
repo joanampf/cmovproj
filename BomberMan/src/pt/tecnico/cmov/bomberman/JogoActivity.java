@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -31,36 +32,38 @@ public class JogoActivity extends Activity {
 		TextView tx = (TextView) findViewById(R.id.playerScore);
 		tx.setText("0");
 		//tempo em segundos -> 30000 = 30 segundos
-		Integer tempo = 30000;
+		Integer tempo = 30;
 		initTime(tempo);
 
 
-		
-		
-//		final TextView tx1 = (TextView) findViewById(R.id.timeLeft);
-//		clock = new CountDownTimer((long)tempo, 1000) {
-//
-//			public void onTick(long millisUntilFinished) {
-//				tx1.setText(""+ millisUntilFinished / 1000);
-//				
-//			}
-//
-//			public void onFinish() {
-//				tx1.setText("done!");
-//			}
-//		}.start();
+
+
+		//		final TextView tx1 = (TextView) findViewById(R.id.timeLeft);
+		//		clock = new CountDownTimer((long)tempo, 1000) {
+		//
+		//			public void onTick(long millisUntilFinished) {
+		//				tx1.setText(""+ millisUntilFinished / 1000);
+		//				
+		//			}
+		//
+		//			public void onFinish() {
+		//				tx1.setText("done!");
+		//			}
+		//		}.start();
 
 
 	}
-	
+
 	// inicializar temporizador
 	public void initTime(Integer tempo){
+
+
 		tx1 = (TextView) findViewById(R.id.timeLeft);
-		clock = new CountDownTimer((long)tempo, 1000) {
+		clock = new CountDownTimer((long)tempo*1000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
 				tx1.setText(""+ millisUntilFinished / 1000);
-				
+
 			}
 
 			public void onFinish() {
@@ -72,7 +75,7 @@ public class JogoActivity extends Activity {
 
 	public void pausePlay(View v) throws InterruptedException{
 		Button b = (Button)findViewById(R.id.pauseplay);
-//		String tempoRestante = ((TextView) tx1.getText()).toString();
+		String tempoRestante = tx1.getText().toString();
 		if(!isPaused){
 			clock.cancel();
 			b.setText("Resume");
@@ -80,8 +83,8 @@ public class JogoActivity extends Activity {
 
 		}else{
 			// poe o contador no inicio
-			
-			//initTime(Integer.parseInt(tempoRestante));
+
+			initTime(Integer.parseInt(tempoRestante));
 			b.setText("Pause");
 			isPaused=false;
 		}
