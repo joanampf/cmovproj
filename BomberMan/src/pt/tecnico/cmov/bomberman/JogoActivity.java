@@ -78,6 +78,7 @@ public class JogoActivity extends Activity {
 		String tempoRestante = tx1.getText().toString();
 		if(!isPaused){
 			clock.cancel();
+//			comentario
 			b.setText("Resume");
 			isPaused=true;
 
