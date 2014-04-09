@@ -38,20 +38,6 @@ public class JogoActivity extends Activity {
 
 
 
-		//		final TextView tx1 = (TextView) findViewById(R.id.timeLeft);
-		//		clock = new CountDownTimer((long)tempo, 1000) {
-		//
-		//			public void onTick(long millisUntilFinished) {
-		//				tx1.setText(""+ millisUntilFinished / 1000);
-		//				
-		//			}
-		//
-		//			public void onFinish() {
-		//				tx1.setText("done!");
-		//			}
-		//		}.start();
-
-
 	}
 
 	// inicializar temporizador
