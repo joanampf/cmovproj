@@ -10,10 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class JogoActivity extends Activity {
-	
+
 	public CountDownTimer clock;
+	private TextView tx1;
 	public Boolean isPaused=false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,48 +22,70 @@ public class JogoActivity extends Activity {
 		Intent intent = getIntent();
 		String nome = intent.getStringExtra(MainActivity.NOME);
 		TextView tx = (TextView) findViewById(R.id.playerName);
-//		TextView tx = new TextView(this);
+		//		TextView tx = new TextView(this);
 		tx.setText(nome);
 		init();
 	}
-	
+
 	public void init(){
 		TextView tx = (TextView) findViewById(R.id.playerScore);
 		tx.setText("0");
-		int a=0;
-		final TextView tx1 = (TextView) findViewById(R.id.timeLeft);
+		//tempo em segundos -> 30000 = 30 segundos
+		Integer tempo = 30000;
+		initTime(tempo);
+
+
 		
-		clock = new CountDownTimer(30000, 1000) {
+		
+//		final TextView tx1 = (TextView) findViewById(R.id.timeLeft);
+//		clock = new CountDownTimer((long)tempo, 1000) {
+//
+//			public void onTick(long millisUntilFinished) {
+//				tx1.setText(""+ millisUntilFinished / 1000);
+//				
+//			}
+//
+//			public void onFinish() {
+//				tx1.setText("done!");
+//			}
+//		}.start();
 
-		     public void onTick(long millisUntilFinished) {
-		         tx1.setText(""+ millisUntilFinished / 1000);
-		     }
 
-		     public void onFinish() {
-		         tx1.setText("done!");
-		     }
-		  }.start();
-		  
 	}
-	//comentario
-
 	
+	// inicializar temporizador
+	public void initTime(Integer tempo){
+		tx1 = (TextView) findViewById(R.id.timeLeft);
+		clock = new CountDownTimer((long)tempo, 1000) {
+
+			public void onTick(long millisUntilFinished) {
+				tx1.setText(""+ millisUntilFinished / 1000);
+				
+			}
+
+			public void onFinish() {
+				tx1.setText("done!");
+			}
+		}.start();
+
+	}
+
 	public void pausePlay(View v) throws InterruptedException{
 		Button b = (Button)findViewById(R.id.pauseplay);
+//		String tempoRestante = ((TextView) tx1.getText()).toString();
 		if(!isPaused){
 			clock.cancel();
 			b.setText("Resume");
 			isPaused=true;
-			
+
 		}else{
 			// poe o contador no inicio
-			// TA MAL
-			// comment
-			clock.start();
+			
+			//initTime(Integer.parseInt(tempoRestante));
 			b.setText("Pause");
 			isPaused=false;
 		}
-		
+
 	}
 
 	@Override

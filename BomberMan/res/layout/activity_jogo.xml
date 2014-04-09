@@ -8,6 +8,8 @@
     android:paddingTop="0dp"
     tools:context=".JogoActivity" >
 
+    <!-- comentario pa joana -->
+    
     <LinearLayout
         android:id="@+id/dataLayout"
         android:layout_width="wrap_content"
