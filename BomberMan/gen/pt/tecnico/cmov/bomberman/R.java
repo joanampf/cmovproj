@@ -24,18 +24,18 @@ public final class R {
         public static final int backgrounddata=0x7f020000;
         public static final int backgrounddata2=0x7f020001;
         public static final int boatodir=0x7f020002;
-        public static final int botaobaixo=0x7f020003;
-        public static final int botaocima=0x7f020004;
-        public static final int botaoesq=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int introbomber=0x7f020007;
+        public static final int bomberman=0x7f020003;
+        public static final int botaobaixo=0x7f020004;
+        public static final int botaocima=0x7f020005;
+        public static final int botaoesq=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int introbomber=0x7f020008;
     }
     public static final class id {
-        public static final int action_settings=0x7f080012;
+        public static final int action_settings=0x7f080011;
         public static final int boatodir=0x7f080007;
         public static final int bomb=0x7f08000a;
-        public static final int botaoNivelDificil=0x7f080011;
-        public static final int botaoNivelFacil=0x7f08000f;
+        public static final int botaoNomeJogador=0x7f08000f;
         public static final int botaobaixo=0x7f080006;
         public static final int botaocima=0x7f080009;
         public static final int botaoesq=0x7f080008;

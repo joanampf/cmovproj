@@ -4,53 +4,53 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import pt.tecnico.cmov.bomberman.MainActivity;
-import pt.tecnico.cmov.bomberman.Nivel;
 
 public class JogoActivity extends Activity {
-
 
 	public CountDownTimer clock;
 	private TextView tx1;
 	public Boolean isPaused=false;
+	public Nivel nivel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_jogo);
 		Intent intent = getIntent();
-
 		String nome = intent.getStringExtra(MainActivity.NOME);
 		TextView tx = (TextView) findViewById(R.id.playerName);
 		tx.setText(nome);
 
-		//		String tempo = intent.getStringExtra(MainActivity.NOME);
-		//		TextView txTempo = (TextView) findViewById(R.id.timeLeft);
-		//		txTempo.setText(tempo);
+		// ****************************
+		// parametros lidos de ficheiro
+		// falta grid layout
+		String name = "Facil";
 		Integer duracao = 50;
-//		Integer timeoutExplosao = 7;
-//		Nivel nivelFacil = new Nivel(duracao, timeoutExplosao);
+		Integer timeoutExplosao = 7;
+		Integer duracaoExplosao = 2;
+		Integer rangeExplosao = 2;
+		Integer velocidadeRobot = 1;
+		Integer pontosRobot = 2;
+		Integer pontosRival = 2;
+
+		// parametros lidos de ficheiro
+		// ****************************
 		
-//		String tempo = intent.getStringExtra(MainActivity.TEMPO);
-//		tx = (TextView) findViewById(R.id.timeLeft);
-//		tx.setText(tempo);
-//		Integer duracao = Integer.parseInt(tempo);
-		init(duracao);
+		nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival);
+
+		init(nivel);
 	}
 
-
-
-	public void init(Integer tempo){
+	public void init(Nivel n){
 		TextView tx = (TextView) findViewById(R.id.playerScore);
 		tx.setText("0");
 
-		//Integer tempo = 30;
-		initTime(tempo);
+//		Integer tempo = 30;
+		initTime(n.getGameDuration());
 
 	}
 

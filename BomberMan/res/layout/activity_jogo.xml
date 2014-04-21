@@ -8,8 +8,6 @@
     android:paddingTop="0dp"
     tools:context=".JogoActivity" >
 
-    <!-- comentario pa joana -->
-
     <LinearLayout
         android:id="@+id/dataLayout"
         android:layout_width="wrap_content"
@@ -56,12 +54,10 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    
-
     <RelativeLayout
         android:id="@+id/moveLayout"
         android:layout_width="wrap_content"
-        android:layout_height="171dp"
+        android:layout_height="161dp"
         android:layout_alignParentBottom="true"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
@@ -116,8 +112,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/button1"
             android:layout_alignParentBottom="true"
-            android:onClick="quit"
-            android:text="Quit" />
+            android:text="Quit"
+            android:onClick="quit" />
 
         <Button
             android:id="@+id/pauseplay"
@@ -127,13 +123,7 @@
             android:layout_alignTop="@+id/botaocima"
             android:onClick="pausePlay"
             android:text="Pause" />
+
     </RelativeLayout>
 
-    <pt.tecnico.cmov.bomberman.telajogo.TelaJogo
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/moveLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/dataLayout" />
 </RelativeLayout>
