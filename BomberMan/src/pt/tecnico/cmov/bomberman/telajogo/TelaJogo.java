@@ -4,16 +4,25 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.view.View;
 
 public class TelaJogo extends View{
 	
 	
 
+	public TelaJogo(Context context, AttributeSet attrs, int defStyleAttr) {
+		super(context, attrs, defStyleAttr);
+		// TODO Auto-generated constructor stub
+	}
+
+	public TelaJogo(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		// TODO Auto-generated constructor stub
+	}
+
 	public TelaJogo(Context context) {
 		super(context);
-		setMinimumHeight(100);
-		setMinimumWidth(100);
 	}
 	
 	@Override

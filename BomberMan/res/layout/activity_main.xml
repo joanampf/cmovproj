@@ -15,31 +15,40 @@
         android:id="@+id/nomeJogador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="181dp"
         android:ems="10"
         android:hint="Inserir Nome"
         android:inputType="textPersonName" />
 
+<!--     <Button -->
+<!--         android:id="@+id/botaoNomeJogador" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_alignBottom="@+id/nomeJogador" -->
+<!--         android:layout_toRightOf="@+id/nomeJogador" -->
+<!--         android:onClick="insereNomeJogador" -->
+<!--         android:text="Jogar!" /> -->
+
+   
+
     <Button
-        android:id="@+id/botaoNomeJogador"
+        android:id="@+id/botaoNivelFacil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/nomeJogador"
-        android:layout_toRightOf="@+id/nomeJogador"
-        android:onClick="insereNomeJogador"
-        android:text="Jogar!" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/nomeJogador"
+        android:layout_marginTop="28dp"
+        android:onClick="insereJogadorFacil"
+        android:text="Facil" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/botaoNomeJogador"
-        android:layout_marginRight="38dp"
-        android:layout_marginTop="47dp"
+        android:layout_alignBottom="@+id/nomeJogador"
+        android:layout_alignRight="@+id/botaoNivelDificil"
+        android:layout_marginBottom="89dp"
         android:src="@drawable/introbomber" />
 
 </RelativeLayout>

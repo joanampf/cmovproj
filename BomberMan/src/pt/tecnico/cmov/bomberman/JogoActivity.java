@@ -9,8 +9,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import pt.tecnico.cmov.bomberman.MainActivity;
+import pt.tecnico.cmov.bomberman.Nivel;
 
 public class JogoActivity extends Activity {
+
 
 	public CountDownTimer clock;
 	private TextView tx1;
@@ -21,22 +24,33 @@ public class JogoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_jogo);
 		Intent intent = getIntent();
+
 		String nome = intent.getStringExtra(MainActivity.NOME);
 		TextView tx = (TextView) findViewById(R.id.playerName);
-		//		TextView tx = new TextView(this);
 		tx.setText(nome);
-		init();
+
+		//		String tempo = intent.getStringExtra(MainActivity.NOME);
+		//		TextView txTempo = (TextView) findViewById(R.id.timeLeft);
+		//		txTempo.setText(tempo);
+		Integer duracao = 50;
+//		Integer timeoutExplosao = 7;
+//		Nivel nivelFacil = new Nivel(duracao, timeoutExplosao);
+		
+//		String tempo = intent.getStringExtra(MainActivity.TEMPO);
+//		tx = (TextView) findViewById(R.id.timeLeft);
+//		tx.setText(tempo);
+//		Integer duracao = Integer.parseInt(tempo);
+		init(duracao);
 	}
 
-	public void init(){
+
+
+	public void init(Integer tempo){
 		TextView tx = (TextView) findViewById(R.id.playerScore);
 		tx.setText("0");
-		//tempo em segundos -> 30000 = 30 segundos
-		Integer tempo = 30;
+
+		//Integer tempo = 30;
 		initTime(tempo);
-
-
-
 
 	}
 
@@ -64,13 +78,12 @@ public class JogoActivity extends Activity {
 		String tempoRestante = tx1.getText().toString();
 		if(!isPaused){
 			clock.cancel();
-//			comentario
+			//			comentario
 			b.setText("Resume");
 			isPaused=true;
 
 		}else{
 			// poe o contador no inicio
-
 			initTime(Integer.parseInt(tempoRestante));
 			b.setText("Pause");
 			isPaused=false;

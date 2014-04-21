@@ -31,10 +31,11 @@ public final class R {
         public static final int introbomber=0x7f020007;
     }
     public static final class id {
-        public static final int action_settings=0x7f080011;
+        public static final int action_settings=0x7f080012;
         public static final int boatodir=0x7f080007;
         public static final int bomb=0x7f08000a;
-        public static final int botaoNomeJogador=0x7f08000f;
+        public static final int botaoNivelDificil=0x7f080011;
+        public static final int botaoNivelFacil=0x7f08000f;
         public static final int botaobaixo=0x7f080006;
         public static final int botaocima=0x7f080009;
         public static final int botaoesq=0x7f080008;
