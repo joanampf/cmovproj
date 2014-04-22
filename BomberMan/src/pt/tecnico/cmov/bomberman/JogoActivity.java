@@ -36,11 +36,14 @@ public class JogoActivity extends Activity {
 		Integer velocidadeRobot = 1;
 		Integer pontosRobot = 2;
 		Integer pontosRival = 2;
+		
+		
+		
 
 		// parametros lidos de ficheiro
 		// ****************************
 		
-		nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival);
+		nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival, filepath);
 
 		init(nivel);
 	}

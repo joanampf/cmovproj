@@ -1,6 +1,8 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
+import pt.tecnico.cmov.bomberman.R;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -32,6 +34,9 @@ public class TelaJogo extends View{
         p.setColor(Color.GREEN);
         p.setStrokeWidth(5);
         cv.drawLine(20, 0, 20, cv.getHeight(), p);
+        cv.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 70, 20, null);
+        
+        
 	}
 	
 
