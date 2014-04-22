@@ -1,5 +1,11 @@
 package pt.tecnico.cmov.bomberman;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,23 +42,53 @@ public class JogoActivity extends Activity {
 		Integer velocidadeRobot = 1;
 		Integer pontosRobot = 2;
 		Integer pontosRival = 2;
+		String filepath = "caca";
+
 		
 		
-		
+		try {
+			readFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 
 		// parametros lidos de ficheiro
 		// ****************************
-		
+
 		nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival, filepath);
 
 		init(nivel);
 	}
 
+	public void readFile() throws IOException
+	{
+		InputStream in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		try {
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+
+			while (line != null) {
+				//	            sb.append(line);
+				//	            sb.append(System.lineSeparator());
+					            line = br.readLine();
+				System.out.println("linha: "+line+"\n");
+			}
+			//	        String everything = sb.toString();
+		} finally {
+			br.close();
+		}
+	}
+
+
 	public void init(Nivel n){
 		TextView tx = (TextView) findViewById(R.id.playerScore);
 		tx.setText("0");
 
-//		Integer tempo = 30;
+		//		Integer tempo = 30;
 		initTime(n.getGameDuration());
 
 	}
