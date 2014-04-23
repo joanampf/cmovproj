@@ -1,10 +1,33 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.SurfaceHolder;
 
 public class MainThread extends Thread{
+	
+	private static final String TAG = MainThread.class.getSimpleName();
 
+	// Surface holder that can access the physical surface
+	private SurfaceHolder surfaceHolder;
+	// The actual view that handles inputs
+	// and draws to the surface
+	private TelaJogo gamePanel;
+
+	// flag to hold game state 
+	private boolean running;
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
+	public MainThread(SurfaceHolder surfaceHolder, TelaJogo gamePanel) {
+		super();
+		this.surfaceHolder = surfaceHolder;
+		this.gamePanel = gamePanel;
+	}
+
+	@SuppressLint("WrongCall")
 	public void run() {
 
 		Canvas canvas;

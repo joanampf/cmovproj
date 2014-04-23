@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -18,8 +19,34 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
 	private MainThread thread;
 
-	private Bomberman droid;
+	public Bomberman droid;//=new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
 
+
+	public TelaJogo(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		// TODO Auto-generated constructor stub
+		getHolder().addCallback(this);
+
+		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
+
+		thread = new MainThread(getHolder(), this);
+
+		setFocusable(true);
+
+	}
+
+	public TelaJogo(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		// TODO Auto-generated constructor stub
+		getHolder().addCallback(this);
+
+		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
+
+		thread = new MainThread(getHolder(), this);
+
+		setFocusable(true);
+
+	}
 
 	public TelaJogo(Context context) {
 		super(context);
@@ -29,7 +56,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
 		getHolder().addCallback(this);
 
-		droid = new Droid(BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
+		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
 
 		thread = new MainThread(getHolder(), this);
 
@@ -138,10 +165,10 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
 	}
 
-
 	@Override
 	protected void onDraw(Canvas cv) {
-		cv.drawColor(Color.WHITE);
+		cv.drawColor(Color.parseColor("#33bb22"));
+		droid.draw(cv);
 		//        Paint p = new Paint();
 		//        p.setColor(Color.GREEN);
 		//        p.setStrokeWidth(5);
