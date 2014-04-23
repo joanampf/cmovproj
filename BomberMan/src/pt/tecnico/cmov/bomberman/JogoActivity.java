@@ -1,20 +1,27 @@
 package pt.tecnico.cmov.bomberman;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+@SuppressLint("NewApi")
 public class JogoActivity extends Activity {
 
 	public CountDownTimer clock;
@@ -34,18 +41,18 @@ public class JogoActivity extends Activity {
 		// ****************************
 		// parametros lidos de ficheiro
 		// falta grid layout
-		String name = "Facil";
-		Integer duracao = 50;
-		Integer timeoutExplosao = 7;
-		Integer duracaoExplosao = 2;
-		Integer rangeExplosao = 2;
-		Integer velocidadeRobot = 1;
-		Integer pontosRobot = 2;
-		Integer pontosRival = 2;
-		String filepath = "caca";
+		//		String name = "Facil";
+		//		Integer duracao = 50;
+		//		Integer timeoutExplosao = 7;
+		//		Integer duracaoExplosao = 2;
+		//		Integer rangeExplosao = 2;
+		//		Integer velocidadeRobot = 1;
+		//		Integer pontosRobot = 2;
+		//		Integer pontosRival = 2;
+		//		String filepath = "caca";
 
-		
-		
+
+
 		try {
 			readFile();
 		} catch (IOException e) {
@@ -57,27 +64,53 @@ public class JogoActivity extends Activity {
 		// parametros lidos de ficheiro
 		// ****************************
 
-		nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival, filepath);
 
 		init(nivel);
 	}
 
-	public void readFile() throws IOException
+	public Nivel readFile() throws IOException
 	{
 		InputStream in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
-		
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		try {
 			StringBuilder sb = new StringBuilder();
+
 			String line = br.readLine();
 
+			String name = line;
+			line = br.readLine();
+			Integer duracao = Integer.valueOf(line);
+			line = br.readLine();
+			Integer timeoutExplosao = Integer.valueOf(line);
+			line = br.readLine();
+			Integer duracaoExplosao = Integer.valueOf(line);
+			line = br.readLine();
+			Integer rangeExplosao = Integer.valueOf(line);
+			line = br.readLine();
+			Integer velocidadeRobot = Integer.valueOf(line);
+			line = br.readLine();
+			Integer pontosRobot = Integer.valueOf(line);
+			line = br.readLine();
+			Integer pontosRival = Integer.valueOf(line);
+			line = br.readLine();
+
+
 			while (line != null) {
-				//	            sb.append(line);
-				//	            sb.append(System.lineSeparator());
-					            line = br.readLine();
-				System.out.println("linha: "+line+"\n");
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				System.out.println(line);
+				//Inserir linha no tabuleiro
+				//desenhar tabuleiro de jogo inicial
+
+
+				line = br.readLine();
+
 			}
-			//	        String everything = sb.toString();
+			String filepath = sb.toString();
+			//			System.out.println("grid: "+filepath);
+			nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival, filepath);
+			return nivel;
 		} finally {
 			br.close();
 		}
@@ -88,7 +121,7 @@ public class JogoActivity extends Activity {
 		TextView tx = (TextView) findViewById(R.id.playerScore);
 		tx.setText("0");
 
-		//		Integer tempo = 30;
+
 		initTime(n.getGameDuration());
 
 	}
