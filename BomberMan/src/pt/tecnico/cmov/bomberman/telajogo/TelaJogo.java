@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 
 public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
@@ -20,7 +22,10 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 	private MainThread thread;
 
 	public Bomberman droid;//=new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
-
+	public Button moveleft = (Button) findViewById(R.id.botaoesq);
+	
+	public Button movedown = (Button) findViewById(R.id.botaobaixo);
+	public Button moveright = (Button) findViewById(R.id.botaodir);
 
 	public TelaJogo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -30,8 +35,20 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
 
 		thread = new MainThread(getHolder(), this);
-
 		setFocusable(true);
+//		moveup.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				droid.moveUp(droid.getX(), droid.getY());
+//			}
+//		});
+//
+//		movedown.setOnClickListener(moveDown);
+//
+//		moveleft.setOnClickListener(moveLeft);
+//
+//		moveright.setOnClickListener(moveRight);
+
+		
 
 	}
 
@@ -43,8 +60,19 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
 
 		thread = new MainThread(getHolder(), this);
-
 		setFocusable(true);
+//		moveup.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				droid.moveUp(droid.getX(), droid.getY());
+//			}
+//		});
+//
+//		movedown.setOnClickListener(moveDown);
+//
+//		moveleft.setOnClickListener(moveLeft);
+//
+//		moveright.setOnClickListener(moveRight);
+		
 
 	}
 
@@ -59,11 +87,26 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
 
 		thread = new MainThread(getHolder(), this);
-
 		setFocusable(true);
 
 	}
 
+
+//	View.OnClickListener moveDown = new View.OnClickListener() {
+//		public void onClick(View v) {
+//			// it was the 1st button
+//		}
+//	};
+//	View.OnClickListener moveLeft = new View.OnClickListener() {
+//		public void onClick(View v) {
+//			// it was the 1st button
+//		}
+//	};
+//	View.OnClickListener moveRight = new View.OnClickListener() {
+//		public void onClick(View v) {
+//			// it was the 1st button
+//		}
+//	};
 	@Override
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -112,6 +155,8 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		Log.d(TAG, "Thread was shut down cleanly");
 
 	}
+	
+	
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {

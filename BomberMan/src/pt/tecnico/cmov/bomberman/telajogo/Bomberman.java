@@ -13,6 +13,7 @@ public class Bomberman {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
+
 	}
 
 	public Bitmap getBitmap() {
@@ -41,7 +42,7 @@ public class Bomberman {
 	}
 
 	public void draw(Canvas canvas) {
-		System.out.println("ENtREI AQUI!!!!");
+
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
 
@@ -57,5 +58,33 @@ public class Bomberman {
 			setTouched(false);
 		}
 	}
+
+	public void moveUp(int y, int imagelength) {
+		if(y>=imagelength){
+			System.out.println("VALOR Da Imagem: " + imagelength);
+			this.setY(y-10);
+		}
+	}
+
+	public void moveDown(int y, int canvaslength,int imagelength) {
+		if(y<=(canvaslength-imagelength)){
+			System.out.println("VALOR DO canvas: " + canvaslength);
+			this.setY(y+10);
+		}
+	}
+
+	public void moveRight(int x, int canvaslength,int imagelength) {
+		if(x<=(canvaslength-imagelength)){
+			System.out.println("VALOR DO X: " + x);
+			this.setX(x+10);
+		}
+	}
+	public void moveLeft(int x, int imagelength) {
+		if(x>=imagelength){
+			System.out.println("VALOR DO X: " + x);
+			this.setX(x-10);
+		}
+	}
+
 
 }

@@ -1,24 +1,20 @@
 package pt.tecnico.cmov.bomberman;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import pt.tecnico.cmov.bomberman.telajogo.TelaJogo;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -37,7 +33,6 @@ public class JogoActivity extends Activity {
 		String nome = intent.getStringExtra(MainActivity.NOME);
 		TextView tx = (TextView) findViewById(R.id.playerName);
 		tx.setText(nome);
-
 		// ****************************
 		// parametros lidos de ficheiro
 		// falta grid layout
@@ -162,12 +157,26 @@ public class JogoActivity extends Activity {
 		}
 
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.jogo, menu);
-		return true;
+	
+	public void moveUp(View v){
+		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
+		System.out.println("Altura da imagem: "+tj.droid.getBitmap().getHeight());
+		tj.droid.moveUp(tj.droid.getY(),tj.droid.getBitmap().getHeight());
+	}
+	
+	public void moveDown(View v){
+		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
+		tj.droid.moveDown(tj.droid.getY(),tj.getHeight(),tj.droid.getBitmap().getHeight());
+	}
+	
+	public void moveLeft(View v){
+		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
+		tj.droid.moveLeft(tj.droid.getX(),tj.droid.getBitmap().getWidth());
+	}
+	
+	public void moveRight(View v){
+		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
+		tj.droid.moveRight(tj.droid.getX(),tj.getWidth(),tj.droid.getBitmap().getWidth());
 	}
 
 }
