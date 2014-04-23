@@ -155,61 +155,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		Log.d(TAG, "Thread was shut down cleanly");
 
 	}
-	
-	
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-			// delegating event handling to the droid
-
-			droid.handleActionDown((int)event.getX(), (int)event.getY());
-
-			// check if in the lower part of the screen we exit
-
-			if (event.getY() > getHeight() - 50) {
-
-				thread.setRunning(false);
-
-				((Activity)getContext()).finish();
-
-			} else {
-
-				Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
-
-			}
-
-		} if (event.getAction() == MotionEvent.ACTION_MOVE) {
-
-			// the gestures
-			if (droid.isTouched()) {
-
-				// the droid was picked up and is being dragged
-
-				droid.setX((int)event.getX());
-
-				droid.setY((int)event.getY());
-
-			}
-
-		} if (event.getAction() == MotionEvent.ACTION_UP) {
-
-			// touch was released
-
-			if (droid.isTouched()) {
-
-				droid.setTouched(false);
-
-			}
-
-		}
-
-		return true;
-
-	}
-
 	@Override
 	protected void onDraw(Canvas cv) {
 		cv.drawColor(Color.parseColor("#33bb22"));

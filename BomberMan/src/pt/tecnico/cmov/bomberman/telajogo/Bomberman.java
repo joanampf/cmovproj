@@ -45,20 +45,6 @@ public class Bomberman {
 
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
-
-	public void handleActionDown(int eventX, int eventY) {
-		if (eventX >= (x - bitmap.getWidth() / 2) && (eventX <= (x + bitmap.getWidth()/2))) {
-			if (eventY >= (y - bitmap.getHeight() / 2) && (y <= (y + bitmap.getHeight() / 2))) {
-				// droid touched
-				setTouched(true);
-			} else {
-				setTouched(false);
-			}
-		} else {
-			setTouched(false);
-		}
-	}
-
 	public void moveUp(int y, int imagelength) {
 		if(y>=imagelength){
 			System.out.println("VALOR Da Imagem: " + imagelength);
