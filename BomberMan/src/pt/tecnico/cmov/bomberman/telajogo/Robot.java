@@ -10,7 +10,7 @@ public class Robot {
 	private Bitmap bitmap; // the actual bitmap
 	private int x;   // the X coordinate
 	private int y;   // the Y coordinate
-	private boolean touched; // if droid is touched/picked up
+	private boolean touched; // if robot is touched/picked up
 
 
 	public Robot(Bitmap bitmap, int x, int y) {
@@ -51,27 +51,26 @@ public class Robot {
 	}
 
 
-//	public void moveRobot(int x, int y, int imageHeight, int imageWidth, int canvasHeight, int canvasWidth){
-//		while (JogoActivity.tempoActivo){
-//			//			Random aleatorio = new Random();
-//			int aleatorio=(int) (Math.random() * 4);
-//			
-//			switch (aleatorio){
-//			
-//			case 0: moveUp(y, imageHeight);
-//			break;
-//			case 1: moveDown(y, canvasHeight, imageHeight);
-//			break;
-//			case 2: moveRight(x, canvasWidth, imageWidth);
-//			break;
-//			case 3: moveLeft(x, imageWidth);
-//			break;
-//			default: break;
-//
-//			}
-//		}
-//
-//	}
+	public void moveRobot(int x, int y, int imageHeight, int imageWidth, int canvasHeight, int canvasWidth){
+		while (JogoActivity.tempoActivo){
+			int aleatorio=(int) (Math.random() * 4);
+			
+			switch (aleatorio){
+		
+			case 0: moveUp(y, imageHeight);
+			break;
+			case 1: moveDown(y, canvasHeight, imageHeight);
+			break;
+			case 2: moveRight(x, canvasWidth, imageWidth);
+			break;
+			case 3: moveLeft(x, imageWidth);
+			break;
+			default: break;
+
+			}
+		}
+
+	}
 
 
 	public void moveUp(int y, int imagelength) {

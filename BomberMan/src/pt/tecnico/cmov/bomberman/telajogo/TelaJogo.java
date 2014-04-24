@@ -20,11 +20,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 	public Bomberman bomber;//=new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
 	public Robot robot;//= new Robot(BitmapFactory.decodeResource(getResources(), R.drawable.mariobot),100,100);
 
-//	public Button moveleft = (Button) findViewById(R.id.botaoesq);
-//	
-//	public Button movedown = (Button) findViewById(R.id.botaobaixo);
-//	public Button moveright = (Button) findViewById(R.id.botaodir);
-
 	public TelaJogo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
@@ -34,20 +29,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		robot = new Robot (BitmapFactory.decodeResource(getResources(), R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
-//		moveup.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				droid.moveUp(droid.getX(), droid.getY());
-//			}
-//		});
-//
-//		movedown.setOnClickListener(moveDown);
-//
-//		moveleft.setOnClickListener(moveLeft);
-//
-//		moveright.setOnClickListener(moveRight);
-
-		
-
 	}
 
 	public TelaJogo(Context context, AttributeSet attrs) {
@@ -59,19 +40,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		robot = new Robot (BitmapFactory.decodeResource(getResources(), R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
-//		moveup.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				droid.moveUp(droid.getX(), droid.getY());
-//			}
-//		});
-//
-//		movedown.setOnClickListener(moveDown);
-//
-//		moveleft.setOnClickListener(moveLeft);
-//
-//		moveright.setOnClickListener(moveRight);
-		
-
 	}
 
 	public TelaJogo(Context context) {
@@ -89,30 +57,13 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
 	}
 
-
-//	View.OnClickListener moveDown = new View.OnClickListener() {
-//		public void onClick(View v) {
-//			// it was the 1st button
-//		}
-//	};
-//	View.OnClickListener moveLeft = new View.OnClickListener() {
-//		public void onClick(View v) {
-//			// it was the 1st button
-//		}
-//	};
-//	View.OnClickListener moveRight = new View.OnClickListener() {
-//		public void onClick(View v) {
-//			// it was the 1st button
-//		}
-//	};
 	@Override
-
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 
 			int height) {
 	}
+	
 	@Override
-
 	public void surfaceCreated(SurfaceHolder holder) {
 
 		// we can safely start the game loop
@@ -158,7 +109,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		cv.drawColor(Color.parseColor("#33bb22"));
 		bomber.draw(cv);
 		robot.draw(cv);
-//		robot.moveRobot(robot.getX(), robot.getY(), robot.getBitmap().getHeight(), robot.getBitmap().getWidth(), this.getHeight(), this.getWidth());
+		robot.moveRobot(robot.getX(), robot.getY(), robot.getBitmap().getHeight(), robot.getBitmap().getWidth(), this.getHeight(), this.getWidth());
 		//        Paint p = new Paint();
 		//        p.setColor(Color.GREEN);
 		//        p.setStrokeWidth(5);

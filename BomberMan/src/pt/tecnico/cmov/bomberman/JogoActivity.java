@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -25,10 +26,10 @@ public class JogoActivity extends Activity {
 	public Nivel nivel;
 
 	//
-	public Button moveleft ;
-	public Button moveup ;
-	public Button movedown ;
-	public Button moveright;
+	public ImageButton moveleft ;
+	public ImageButton moveup ;
+	public ImageButton movedown ;
+	public ImageButton moveright;
 	public Button bomb;
 	public Button pause;
 
@@ -40,20 +41,13 @@ public class JogoActivity extends Activity {
 		String nome = intent.getStringExtra(MainActivity.NOME);
 		TextView tx = (TextView) findViewById(R.id.playerName);
 		tx.setText(nome);
-		// ****************************
-		// parametros lidos de ficheiro
-		// falta grid layout
-		//		String name = "Facil";
-		//		Integer duracao = 50;
-		//		Integer timeoutExplosao = 7;
-		//		Integer duracaoExplosao = 2;
-		//		Integer rangeExplosao = 2;
-		//		Integer velocidadeRobot = 1;
-		//		Integer pontosRobot = 2;
-		//		Integer pontosRival = 2;
-		//		String filepath = "caca";
 
-
+		pause = (Button)findViewById(R.id.pauseplay);
+		moveleft = (ImageButton) findViewById(R.id.botaoesq);
+		moveup = (ImageButton) findViewById(R.id.botaocima);
+		movedown = (ImageButton) findViewById(R.id.botaobaixo);
+		moveright = (ImageButton) findViewById(R.id.botaodir);
+		bomb = (Button)findViewById(R.id.bomb);
 
 		try {
 			readFile();
@@ -61,11 +55,6 @@ public class JogoActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-		// parametros lidos de ficheiro
-		// ****************************
-
 
 		init(nivel);
 	}
@@ -137,18 +126,8 @@ public class JogoActivity extends Activity {
 
 			public void onTick(long millisUntilFinished) {
 				tx1.setText(""+ millisUntilFinished / 1000);
-
 			}
-
 			public void onFinish() {
-
-				pause = (Button)findViewById(R.id.pauseplay);
-				moveleft = (Button) findViewById(R.id.botaoesq);
-				moveup = (Button) findViewById(R.id.botaocima);
-				movedown = (Button) findViewById(R.id.botaobaixo);
-				moveright = (Button) findViewById(R.id.botaodir);
-				bomb = (Button)findViewById(R.id.bomb);
-
 				tempoActivo=false;
 				movedown.setEnabled(false);
 				moveright.setEnabled(false);
@@ -166,14 +145,6 @@ public class JogoActivity extends Activity {
 		System.out.println("pauseplay ******");
 		String tempoRestante = tx1.getText().toString();
 
-		pause = (Button)findViewById(R.id.pauseplay);
-		moveleft = (Button) findViewById(R.id.botaoesq);
-		moveup = (Button) findViewById(R.id.botaocima);
-		movedown = (Button) findViewById(R.id.botaobaixo);
-		moveright = (Button) findViewById(R.id.botaodir);
-		bomb = (Button)findViewById(R.id.bomb);
-
-		
 		if(!isPaused){
 			clock.cancel();
 			isPaused=true;
@@ -183,9 +154,8 @@ public class JogoActivity extends Activity {
 			moveup.setEnabled(false);
 			moveleft.setEnabled(false);
 			bomb.setEnabled(false);
-
-
-		}else{
+		}
+		else{
 			// poe o contador no inicio
 			initTime(Integer.parseInt(tempoRestante));
 			pause.setText("Pause");
@@ -200,10 +170,8 @@ public class JogoActivity extends Activity {
 
 	}
 
-
-
 	//	Robot vai mexer aleatoriamente
-	//	Funçao de chama movimentos aleatorios
+	//	FunÔøΩao de chama movimentos aleatorios
 
 	public void moveUp(View v){
 		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
