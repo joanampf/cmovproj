@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 import pt.tecnico.cmov.bomberman.telajogo.TelaJogo;
 import android.annotation.SuppressLint;
@@ -25,7 +26,11 @@ public class JogoActivity extends Activity {
 	public Boolean isPaused=false;
 	public Nivel nivel;
 
-	public char[][] tabuleiroInit = null;
+	// ta a dar erro, tentar encher matriz
+	public char[][] tabuleiroInit=new char[30][30];
+	
+	
+	
 	public ImageButton moveleft ;
 	public ImageButton moveup ;
 	public ImageButton movedown ;
@@ -89,6 +94,9 @@ public class JogoActivity extends Activity {
 
 			int coluna;
 			int linha = 0;
+			
+			// line.lenght = no. colunas
+			// ver lenght br = no. linhas
 			while (line != null) {
 				coluna=0;
 				sb.append(line);
@@ -96,6 +104,7 @@ public class JogoActivity extends Activity {
 				
 				
 				for(coluna=0;coluna<line.length();coluna++){
+					
 					tabuleiroInit[linha][coluna]=line.charAt(coluna);
 				}
 				
