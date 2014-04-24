@@ -11,19 +11,26 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
 public class JogoActivity extends Activity {
 
+	public static boolean tempoActivo=true;
 	public CountDownTimer clock;
 	private TextView tx1;
 	public Boolean isPaused=false;
 	public Nivel nivel;
+
+	//
+	public Button moveleft ;
+	public Button moveup ;
+	public Button movedown ;
+	public Button moveright;
+	public Button bomb;
+	public Button pause;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +141,21 @@ public class JogoActivity extends Activity {
 			}
 
 			public void onFinish() {
+
+				pause = (Button)findViewById(R.id.pauseplay);
+				moveleft = (Button) findViewById(R.id.botaoesq);
+				moveup = (Button) findViewById(R.id.botaocima);
+				movedown = (Button) findViewById(R.id.botaobaixo);
+				moveright = (Button) findViewById(R.id.botaodir);
+				bomb = (Button)findViewById(R.id.bomb);
+
+				tempoActivo=false;
+				movedown.setEnabled(false);
+				moveright.setEnabled(false);
+				moveup.setEnabled(false);
+				moveleft.setEnabled(false);
+				bomb.setEnabled(false);
+				pause.setEnabled(false);
 				tx1.setText("done!");
 			}
 		}.start();
@@ -141,42 +163,71 @@ public class JogoActivity extends Activity {
 	}
 
 	public void pausePlay(View v) throws InterruptedException{
-		Button b = (Button)findViewById(R.id.pauseplay);
+		System.out.println("pauseplay ******");
 		String tempoRestante = tx1.getText().toString();
+
+		pause = (Button)findViewById(R.id.pauseplay);
+		moveleft = (Button) findViewById(R.id.botaoesq);
+		moveup = (Button) findViewById(R.id.botaocima);
+		movedown = (Button) findViewById(R.id.botaobaixo);
+		moveright = (Button) findViewById(R.id.botaodir);
+		bomb = (Button)findViewById(R.id.bomb);
+
+		
 		if(!isPaused){
 			clock.cancel();
-			//			comentario
-			b.setText("Resume");
 			isPaused=true;
+			pause.setText("Resume");
+			movedown.setEnabled(false);
+			moveright.setEnabled(false);
+			moveup.setEnabled(false);
+			moveleft.setEnabled(false);
+			bomb.setEnabled(false);
+
 
 		}else{
 			// poe o contador no inicio
 			initTime(Integer.parseInt(tempoRestante));
-			b.setText("Pause");
+			pause.setText("Pause");
+			movedown.setEnabled(true);
+			moveright.setEnabled(true);
+			moveup.setEnabled(true);
+			moveleft.setEnabled(true);
+			bomb.setEnabled(true);
 			isPaused=false;
+
 		}
 
 	}
-	
+
+
+
+	//	Robot vai mexer aleatoriamente
+	//	Funçao de chama movimentos aleatorios
+
 	public void moveUp(View v){
 		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
-		System.out.println("Altura da imagem: "+tj.droid.getBitmap().getHeight());
-		tj.droid.moveUp(tj.droid.getY(),tj.droid.getBitmap().getHeight());
+		System.out.println("Altura da imagem: "+tj.bomber.getBitmap().getHeight());
+		tj.bomber.moveUp(tj.bomber.getY(),tj.bomber.getBitmap().getHeight());
+		//		tj.robot.moveUp(tj.robot.getY(), tj.robot.getBitmap().getHeight());
 	}
-	
+
 	public void moveDown(View v){
 		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.droid.moveDown(tj.droid.getY(),tj.getHeight(),tj.droid.getBitmap().getHeight());
+		tj.bomber.moveDown(tj.bomber.getY(),tj.getHeight(),tj.bomber.getBitmap().getHeight());
+		//		tj.robot.moveDown(tj.robot.getY(),tj.getHeight(), tj.robot.getBitmap().getHeight());
 	}
-	
+
 	public void moveLeft(View v){
 		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.droid.moveLeft(tj.droid.getX(),tj.droid.getBitmap().getWidth());
+		tj.bomber.moveLeft(tj.bomber.getX(),tj.bomber.getBitmap().getWidth());
+		//		tj.robot.moveLeft(tj.robot.getX(), tj.robot.getBitmap().getWidth());
 	}
-	
+
 	public void moveRight(View v){
 		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.droid.moveRight(tj.droid.getX(),tj.getWidth(),tj.droid.getBitmap().getWidth());
+		tj.bomber.moveRight(tj.bomber.getX(),tj.getWidth(),tj.bomber.getBitmap().getWidth());
+		//		tj.robot.moveRight(tj.robot.getX(),tj.getWidth(), tj.robot.getBitmap().getWidth());
 	}
 
 }

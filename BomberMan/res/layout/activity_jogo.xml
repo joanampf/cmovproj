@@ -66,6 +66,7 @@
 
         <ImageButton
             android:id="@+id/botaobaixo"
+            android:enabled="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -75,6 +76,7 @@
 
         <ImageButton
             android:id="@+id/botaoesq"
+            android:enabled="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/botaocima"
@@ -84,6 +86,7 @@
 
         <ImageButton
             android:id="@+id/botaocima"
+            android:enabled="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/botaodir"
@@ -93,6 +96,7 @@
 
         <ImageButton
             android:id="@+id/botaodir"
+            android:enabled="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/botaobaixo"
@@ -102,6 +106,7 @@
 
         <Button
             android:id="@+id/bomb"
+            android:enabled="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/botaocima"
@@ -112,6 +117,7 @@
 
         <Button
             android:id="@+id/quit"
+            android:enabled="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/button1"
@@ -121,6 +127,7 @@
 
         <Button
             android:id="@+id/pauseplay"
+            android:enabled="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/quit"

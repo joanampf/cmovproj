@@ -1,18 +1,14 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
 import pt.tecnico.cmov.bomberman.R;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
 
 public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
@@ -21,19 +17,21 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
 	private MainThread thread;
 
-	public Bomberman droid;//=new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
-	public Button moveleft = (Button) findViewById(R.id.botaoesq);
-	
-	public Button movedown = (Button) findViewById(R.id.botaobaixo);
-	public Button moveright = (Button) findViewById(R.id.botaodir);
+	public Bomberman bomber;//=new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
+	public Robot robot;//= new Robot(BitmapFactory.decodeResource(getResources(), R.drawable.mariobot),100,100);
+
+//	public Button moveleft = (Button) findViewById(R.id.botaoesq);
+//	
+//	public Button movedown = (Button) findViewById(R.id.botaobaixo);
+//	public Button moveright = (Button) findViewById(R.id.botaodir);
 
 	public TelaJogo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
 
-		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
-
+		bomber = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
+		robot = new Robot (BitmapFactory.decodeResource(getResources(), R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 //		moveup.setOnClickListener(new OnClickListener() {
@@ -57,8 +55,8 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
 
-		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
-
+		bomber = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
+		robot = new Robot (BitmapFactory.decodeResource(getResources(), R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 //		moveup.setOnClickListener(new OnClickListener() {
@@ -84,8 +82,8 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
 		getHolder().addCallback(this);
 
-		droid = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
-
+		bomber = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman), 50, 50);
+		robot = new Robot (BitmapFactory.decodeResource(getResources(), R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 
@@ -158,7 +156,9 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	protected void onDraw(Canvas cv) {
 		cv.drawColor(Color.parseColor("#33bb22"));
-		droid.draw(cv);
+		bomber.draw(cv);
+		robot.draw(cv);
+//		robot.moveRobot(robot.getX(), robot.getY(), robot.getBitmap().getHeight(), robot.getBitmap().getWidth(), this.getHeight(), this.getWidth());
 		//        Paint p = new Paint();
 		//        p.setColor(Color.GREEN);
 		//        p.setStrokeWidth(5);
