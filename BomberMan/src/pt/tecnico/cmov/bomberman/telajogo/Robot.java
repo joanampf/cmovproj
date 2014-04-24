@@ -1,6 +1,5 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
-import pt.tecnico.cmov.bomberman.JogoActivity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -49,26 +48,33 @@ public class Robot {
 
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
+	
+	
 
 
-	public void moveRobot(int x, int y, int imageHeight, int imageWidth, int canvasHeight, int canvasWidth){
-		while (JogoActivity.tempoActivo){
-			int aleatorio=(int) (Math.random() * 4);
-			
-			switch (aleatorio){
+	public void moveRobot(int x, int y, int imageHeight, int imageWidth, int canvasHeight, int canvasWidth) throws InterruptedException{
+		//		while (JogoActivity.tempoActivo){
+		int aleatorio=(int) (Math.random() * 4);
 		
-			case 0: moveUp(y, imageHeight);
-			break;
-			case 1: moveDown(y, canvasHeight, imageHeight);
-			break;
-			case 2: moveRight(x, canvasWidth, imageWidth);
-			break;
-			case 3: moveLeft(x, imageWidth);
-			break;
-			default: break;
 
-			}
+		switch (aleatorio){
+
+		case 0: moveUp(y, imageHeight);
+		Thread.sleep(500);
+		break;
+		case 1: moveDown(y, canvasHeight, imageHeight);
+		Thread.sleep(500);
+		break;
+		case 2: moveRight(x, canvasWidth, imageWidth);
+		Thread.sleep(500);
+		break;
+		case 3: moveLeft(x, imageWidth);
+		Thread.sleep(500);
+		break;
+		default: break;
+
 		}
+		//		}
 
 	}
 

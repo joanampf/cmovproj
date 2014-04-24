@@ -1,5 +1,6 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
+import pt.tecnico.cmov.bomberman.JogoActivity;
 import pt.tecnico.cmov.bomberman.R;
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -62,7 +63,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 
 			int height) {
 	}
-	
+
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 
@@ -104,12 +105,31 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		Log.d(TAG, "Thread was shut down cleanly");
 
 	}
+	
+	
+	
+	
+//	public void CriaTabuleiro(){
+//		
+//		System.out.println(JogoActivity.tabuleiroInit);
+//		
+//	}
+	
+	
+	
 	@Override
 	protected void onDraw(Canvas cv) {
 		cv.drawColor(Color.parseColor("#33bb22"));
 		bomber.draw(cv);
 		robot.draw(cv);
-		robot.moveRobot(robot.getX(), robot.getY(), robot.getBitmap().getHeight(), robot.getBitmap().getWidth(), this.getHeight(), this.getWidth());
+		if (JogoActivity.tempoActivo)
+			try {
+				robot.moveRobot(robot.getX(), robot.getY(), robot.getBitmap().getHeight(), robot.getBitmap().getWidth(), this.getHeight(), this.getWidth());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		//        Paint p = new Paint();
 		//        p.setColor(Color.GREEN);
 		//        p.setStrokeWidth(5);

@@ -25,13 +25,14 @@ public class JogoActivity extends Activity {
 	public Boolean isPaused=false;
 	public Nivel nivel;
 
-	//
+	public char[][] tabuleiroInit = null;
 	public ImageButton moveleft ;
 	public ImageButton moveup ;
 	public ImageButton movedown ;
 	public ImageButton moveright;
 	public Button bomb;
 	public Button pause;
+	public TelaJogo tj;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,14 +87,23 @@ public class JogoActivity extends Activity {
 			Integer pontosRival = Integer.valueOf(line);
 			line = br.readLine();
 
-
+			int coluna;
+			int linha = 0;
 			while (line != null) {
+				coluna=0;
 				sb.append(line);
 				sb.append(System.lineSeparator());
-				System.out.println(line);
+				
+				
+				for(coluna=0;coluna<line.length();coluna++){
+					tabuleiroInit[linha][coluna]=line.charAt(coluna);
+				}
+				
+				linha++;
+				
 				//Inserir linha no tabuleiro
 				//desenhar tabuleiro de jogo inicial
-
+				
 
 				line = br.readLine();
 
@@ -149,6 +159,7 @@ public class JogoActivity extends Activity {
 			clock.cancel();
 			isPaused=true;
 			pause.setText("Resume");
+			tempoActivo=false;
 			movedown.setEnabled(false);
 			moveright.setEnabled(false);
 			moveup.setEnabled(false);
@@ -159,6 +170,7 @@ public class JogoActivity extends Activity {
 			// poe o contador no inicio
 			initTime(Integer.parseInt(tempoRestante));
 			pause.setText("Pause");
+			tempoActivo=true;
 			movedown.setEnabled(true);
 			moveright.setEnabled(true);
 			moveup.setEnabled(true);
@@ -174,26 +186,26 @@ public class JogoActivity extends Activity {
 	//	Fun�ao de chama movimentos aleatorios
 
 	public void moveUp(View v){
-		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
+		tj = (TelaJogo) findViewById(R.id.telajogo);
 		System.out.println("Altura da imagem: "+tj.bomber.getBitmap().getHeight());
 		tj.bomber.moveUp(tj.bomber.getY(),tj.bomber.getBitmap().getHeight());
 		//		tj.robot.moveUp(tj.robot.getY(), tj.robot.getBitmap().getHeight());
 	}
 
 	public void moveDown(View v){
-		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
+		tj = (TelaJogo) findViewById(R.id.telajogo);
 		tj.bomber.moveDown(tj.bomber.getY(),tj.getHeight(),tj.bomber.getBitmap().getHeight());
 		//		tj.robot.moveDown(tj.robot.getY(),tj.getHeight(), tj.robot.getBitmap().getHeight());
 	}
 
 	public void moveLeft(View v){
-		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
+		tj = (TelaJogo) findViewById(R.id.telajogo);
 		tj.bomber.moveLeft(tj.bomber.getX(),tj.bomber.getBitmap().getWidth());
 		//		tj.robot.moveLeft(tj.robot.getX(), tj.robot.getBitmap().getWidth());
 	}
 
 	public void moveRight(View v){
-		TelaJogo tj = (TelaJogo) findViewById(R.id.telajogo);
+		tj = (TelaJogo) findViewById(R.id.telajogo);
 		tj.bomber.moveRight(tj.bomber.getX(),tj.getWidth(),tj.bomber.getBitmap().getWidth());
 		//		tj.robot.moveRight(tj.robot.getX(),tj.getWidth(), tj.robot.getBitmap().getWidth());
 	}
