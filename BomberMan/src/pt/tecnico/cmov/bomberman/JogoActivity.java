@@ -220,19 +220,20 @@ public class JogoActivity extends Activity {
 	public void moveUp(View v){
 		tj = (TelaJogo) findViewById(R.id.telajogo);
 		System.out.println("Altura da imagem: "+tj.bomber.getBitmap().getHeight());
-		tj.bomber.moveUp(tj.bomber.getY(),tj.bomber.getBitmap().getHeight());
+//		tj.bomber.moveUp(tj.bomber.getY(),tj.bomber.getBitmap().getHeight());
+		tj.bomber.moveUp();
 		//		tj.robot.moveUp(tj.robot.getY(), tj.robot.getBitmap().getHeight());
 	}
 
 	public void moveDown(View v){
 		tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.bomber.moveDown(tj.bomber.getY(),tj.getHeight(),tj.bomber.getBitmap().getHeight());
+		tj.bomber.moveDown();
 		//		tj.robot.moveDown(tj.robot.getY(),tj.getHeight(), tj.robot.getBitmap().getHeight());
 	}
 
 	public void moveLeft(View v){
 		tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.bomber.moveLeft(tj.bomber.getX(),tj.bomber.getBitmap().getWidth());
+		tj.bomber.moveLeft();
 		//		tj.robot.moveLeft(tj.robot.getX(), tj.robot.getBitmap().getWidth());
 	}
 

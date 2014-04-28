@@ -46,23 +46,17 @@ public class Bomberman {
 
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
-	public void moveUp(int y, int imagelength) {
+//	public void moveUp(int y, int imagelength) {
+	public void moveUp() {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int[] posicao = new int[2];
 		posicao=tab.getPosicao('1');
-		tab.setTabuleiro(posicao[0], posicao[1]-1, '1');
+		tab.setTabuleiro(posicao[0]-1, posicao[1], '1');
 		tab.setTabuleiro(posicao[0], posicao[1], '-');
+		
 	}
 
-	public void moveDown(int y, int canvaslength,int imagelength) {
-		Tabuleiro tab = JogoActivity.tabuleiroInit;
-		int[] posicao = new int[2];
-		posicao=tab.getPosicao('1');
-		tab.setTabuleiro(posicao[0], posicao[1]+1, '1');
-		tab.setTabuleiro(posicao[0], posicao[1], '-');
-	}
-
-	public void moveRight() {
+	public void moveDown() {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int[] posicao = new int[2];
 		posicao=tab.getPosicao('1');
@@ -70,11 +64,20 @@ public class Bomberman {
 		tab.setTabuleiro(posicao[0], posicao[1], '-');
 		
 	}
-	public void moveLeft(int x, int imagelength) {
+
+	public void moveRight() {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int[] posicao = new int[2];
 		posicao=tab.getPosicao('1');
-		tab.setTabuleiro(posicao[0]-1, posicao[1], '1');
+		tab.setTabuleiro(posicao[0], posicao[1]+1, '1');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
+		
+	}
+	public void moveLeft() {
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('1');
+		tab.setTabuleiro(posicao[0], posicao[1]-1, '1');
 		tab.setTabuleiro(posicao[0], posicao[1], '-');
 	}
 

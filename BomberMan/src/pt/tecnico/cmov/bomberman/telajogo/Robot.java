@@ -1,5 +1,6 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
+import pt.tecnico.cmov.bomberman.JogoActivity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -18,6 +19,7 @@ public class Robot {
 		this.y = y;
 
 	}
+
 
 	public Bitmap getBitmap() {
 		return bitmap;
@@ -52,23 +54,26 @@ public class Robot {
 	
 
 
-	public void moveRobot(int x, int y, int imageHeight, int imageWidth, int canvasHeight, int canvasWidth) throws InterruptedException{
+	public void moveRobot() throws InterruptedException{
 		//		while (JogoActivity.tempoActivo){
 		int aleatorio=(int) (Math.random() * 4);
 		
 
 		switch (aleatorio){
 
-		case 0: moveUp(y, imageHeight);
+		case 0: moveUp();
 		Thread.sleep(500);
 		break;
-		case 1: moveDown(y, canvasHeight, imageHeight);
+//		case 1: moveDown(y, canvasHeight, imageHeight);
+		case 1: moveDown();
 		Thread.sleep(500);
 		break;
-		case 2: moveRight(x, canvasWidth, imageWidth);
+//		case 2: moveRight(x, canvasWidth, imageWidth);
+		case 2: moveRight();
 		Thread.sleep(500);
 		break;
-		case 3: moveLeft(x, imageWidth);
+//		case 3: moveLeft(x, imageWidth);
+		case 3: moveLeft();
 		Thread.sleep(500);
 		break;
 		default: break;
@@ -79,26 +84,37 @@ public class Robot {
 	}
 
 
-	public void moveUp(int y, int imagelength) {
-		if(y>=imagelength){
-			this.setY(y-10);
-		}
+	public void moveUp() {
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('R');
+		tab.setTabuleiro(posicao[0]-1, posicao[1], 'R');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
+		
 	}
 
-	public void moveDown(int y, int canvaslength,int imagelength) {
-		if(y<=(canvaslength-imagelength)){
-			this.setY(y+10);
-		}
+	public void moveDown() {
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('R');
+		tab.setTabuleiro(posicao[0]+1, posicao[1], 'R');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
+		
 	}
 
-	public void moveRight(int x, int canvaslength,int imagelength) {
-		if(x<=(canvaslength-imagelength)){
-			this.setX(x+10);
-		}
+	public void moveRight() {
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('R');
+		tab.setTabuleiro(posicao[0], posicao[1]+1, 'R');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
+		
 	}
-	public void moveLeft(int x, int imagelength) {
-		if(x>=imagelength){
-			this.setX(x-10);
-		}
+	public void moveLeft() {
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('R');
+		tab.setTabuleiro(posicao[0], posicao[1]-1, 'R');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
 	}
 }

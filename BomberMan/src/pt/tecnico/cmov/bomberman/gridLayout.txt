@@ -7,9 +7,9 @@ Facil
 2
 2
 WWWWWWWWWWWWWWWWWWW
-W-2-----R----O----W
+W-2-----K----O----W
 WWOW-W-W-W-W-W-W-WW
-W-O--------R------W
+W-O--------K------W
 WWOWOW-W-W-W-WOW-WW
 W--O--------O-R--3W
 WWOW-W-W-W-W-W-W-WW
@@ -17,5 +17,5 @@ W-OOOO---1-------OW
 WWOWOWOWOW-W-W-W-WW
 W--OOOO--R--OOO---W
 WW-W-WOWOW-WOWOWOWW
-W------OOO--OOO-ORW
+W------OOO--OOO-OKW
 WWWWWWWWWWWWWWWWWWW

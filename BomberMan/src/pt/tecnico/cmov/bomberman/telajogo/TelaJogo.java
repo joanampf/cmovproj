@@ -20,23 +20,20 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	public boolean controlo = false;
 	private MainThread thread;
 
-	public Bomberman bomber;// =new Bomberman
-	// (BitmapFactory.decodeResource(getResources(),
-	// R.drawable.bomberman), 50, 50);
-	public Robot robot;// = new
-	// Robot(BitmapFactory.decodeResource(getResources(),
-	// R.drawable.mariobot),100,100);
+	public Bomberman bomber;
+	public Robot robot;
 	public Wall wall;
+	public Obstaculo obstaculo;
 
 	public TelaJogo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
 
-		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
-				R.drawable.bomberman), 50, 50);
-		robot = new Robot(BitmapFactory.decodeResource(getResources(),
-				R.drawable.mariobot), 100, 100);
+//		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
+//				R.drawable.bomberman), 50, 50);
+//		robot = new Robot(BitmapFactory.decodeResource(getResources(),
+//				R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}
@@ -46,10 +43,10 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
 
-		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
-				R.drawable.bomberman), 50, 50);
-		robot = new Robot(BitmapFactory.decodeResource(getResources(),
-				R.drawable.mariobot), 100, 100);
+//		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
+//				R.drawable.bomberman), 50, 50);
+//		robot = new Robot(BitmapFactory.decodeResource(getResources(),
+//				R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}
@@ -61,10 +58,10 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 
 		getHolder().addCallback(this);
 
-		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
-				R.drawable.bomberman), 50, 50);
-		robot = new Robot(BitmapFactory.decodeResource(getResources(),
-				R.drawable.mariobot), 100, 100);
+//		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
+//				R.drawable.bomberman), 50, 50);
+//		robot = new Robot(BitmapFactory.decodeResource(getResources(),
+//				R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 
@@ -155,6 +152,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	protected void onDraw(Canvas cv) {
 
 		Tabuleiro tabuleiro = JogoActivity.tabuleiroInit;
+		int numero_robot=0; 
 		int coluna;
 		int linha;
 		int num_linhas = tabuleiro.getNum_linhas();
@@ -170,8 +168,8 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 				switch (tabuleiro.getTabuleiro(linha, coluna)) {
 				case 'W':
 					wall = new Wall(BitmapFactory.decodeResource(
-							getResources(), R.drawable.wall), linha
-							* bit.getWidth() + bit.getWidth() / 2, coluna
+							getResources(), R.drawable.wall), coluna
+							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					wall.draw(cv);
 					break;
@@ -179,26 +177,33 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 					//					case '2':
 					//					case '3':
 					bomber = new Bomberman(BitmapFactory.decodeResource(
-							getResources(), R.drawable.bomberman), linha
-							* bit.getWidth() + bit.getWidth() / 2, coluna
+							getResources(), R.drawable.bomberman), coluna
+							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					bomber.draw(cv);
 					break;
 				case 'R':
+					//ver robots - andar aleatoriamente
 					robot = new Robot(BitmapFactory.decodeResource(
-							getResources(), R.drawable.mariobot), linha
-							* bit.getWidth() + bit.getWidth() / 2, coluna
+							getResources(), R.drawable.mariobot), coluna
+							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					robot.draw(cv);
 					break;
+				case 'O':
+					obstaculo = new Obstaculo(BitmapFactory.decodeResource(
+							getResources(), R.drawable.obstaculo), coluna
+							* bit.getWidth() + bit.getWidth() / 2, linha
+							* bit.getHeight() + bit.getHeight() / 2);
+					break;
+					
+					//criar classe obstaculo
 				}
 			}
 		}
 		if (JogoActivity.tempoActivo)
 			try {
-				robot.moveRobot(robot.getX(), robot.getY(), robot.getBitmap()
-						.getHeight(), robot.getBitmap().getWidth(), this
-						.getHeight(), this.getWidth());
+				robot.moveRobot();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
