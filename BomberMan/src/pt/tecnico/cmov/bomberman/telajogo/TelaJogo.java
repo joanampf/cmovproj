@@ -3,6 +3,7 @@ package pt.tecnico.cmov.bomberman.telajogo;
 import pt.tecnico.cmov.bomberman.JogoActivity;
 import pt.tecnico.cmov.bomberman.R;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -149,21 +150,38 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 		int linha;
 		int num_linhas = tabuleiroInit.length;
 		int num_colunas = tabuleiroInit[0].length;
-
+		Bitmap bit = BitmapFactory.decodeResource(getResources(), R.drawable.wall);
 
 		cv.drawColor(Color.parseColor("#33bb22"));
-		bomber.draw(cv);
-		robot.draw(cv);
+		
+		
 
 		if(!controlo){
 			for(linha=0;linha<num_linhas;linha++){
 				for(coluna=0;coluna<num_colunas;coluna++){
 					getHolder().addCallback(this);
 					
-					wall = new Wall(BitmapFactory.decodeResource(getResources(), R.drawable.wall),linha,coluna);
+					switch(tabuleiroInit[linha][coluna]){
+					case 'W':
+						wall = new Wall(BitmapFactory.decodeResource(getResources(), R.drawable.wall),linha*bit.getWidth()+bit.getWidth()/2,coluna*bit.getHeight()+bit.getHeight()/2);
+						wall.draw(cv);
+						break;
+					case '1':
+					case '2':
+					case '3':
+						bomber = new Bomberman (BitmapFactory.decodeResource(getResources(), R.drawable.bomberman),linha*bit.getWidth()+bit.getWidth()/2,coluna*bit.getHeight()+bit.getHeight()/2);
+						bomber.draw(cv);
+						break;
+					case 'R':
+						robot = new Robot (BitmapFactory.decodeResource(getResources(), R.drawable.mariobot),linha*bit.getWidth()+bit.getWidth()/2,coluna*bit.getHeight()+bit.getHeight()/2);
+						robot.draw(cv);
+						break;
+					}
+					
+					
 					thread = new MainThread(getHolder(), this);
 					setFocusable(true);
-					wall.draw(cv);
+					
 				}
 			}
 		}
