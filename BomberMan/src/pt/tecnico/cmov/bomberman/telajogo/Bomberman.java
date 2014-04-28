@@ -1,5 +1,6 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
+import pt.tecnico.cmov.bomberman.JogoActivity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -46,30 +47,35 @@ public class Bomberman {
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
 	public void moveUp(int y, int imagelength) {
-		if(y>=imagelength){
-			System.out.println("VALOR Da Imagem: " + imagelength);
-			this.setY(y-10);
-		}
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('1');
+		tab.setTabuleiro(posicao[0], posicao[1]-1, '1');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
 	}
 
 	public void moveDown(int y, int canvaslength,int imagelength) {
-		if(y<=(canvaslength-imagelength)){
-			System.out.println("VALOR DO canvas: " + canvaslength);
-			this.setY(y+10);
-		}
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('1');
+		tab.setTabuleiro(posicao[0], posicao[1]+1, '1');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
 	}
 
-	public void moveRight(int x, int canvaslength,int imagelength) {
-		if(x<=(canvaslength-imagelength)){
-			System.out.println("VALOR DO X: " + x);
-			this.setX(x+10);
-		}
+	public void moveRight() {
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('1');
+		tab.setTabuleiro(posicao[0]+1, posicao[1], '1');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
+		
 	}
 	public void moveLeft(int x, int imagelength) {
-		if(x>=imagelength){
-			System.out.println("VALOR DO X: " + x);
-			this.setX(x-10);
-		}
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int[] posicao = new int[2];
+		posicao=tab.getPosicao('1');
+		tab.setTabuleiro(posicao[0]-1, posicao[1], '1');
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
 	}
 
 

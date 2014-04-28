@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
+import pt.tecnico.cmov.bomberman.telajogo.Tabuleiro;
 import pt.tecnico.cmov.bomberman.telajogo.TelaJogo;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -27,7 +28,7 @@ public class JogoActivity extends Activity {
 	public Nivel nivel;
 
 	// ta a dar erro, tentar encher matriz
-	public static char[][] tabuleiroInit;
+	public static Tabuleiro tabuleiroInit;
 
 
 
@@ -116,7 +117,7 @@ public class JogoActivity extends Activity {
 			line=br.readLine();
 			
 			num_colunas = line.length();
-			tabuleiroInit=new char[num_linhas][num_colunas];
+			tabuleiroInit=new Tabuleiro(num_linhas, num_colunas);
 
 			int coluna;
 			int linha = 0;
@@ -131,7 +132,7 @@ public class JogoActivity extends Activity {
 
 				for(coluna=0;coluna<line.length();coluna++){
 
-					tabuleiroInit[linha][coluna]=line.charAt(coluna);
+					tabuleiroInit.tabuleiro[linha][coluna]=line.charAt(coluna);
 				}
 //				System.out.println("tabuleiro na linha"+linha+": "+tabuleiroInit[linha][0]);
 				linha++;
@@ -237,7 +238,7 @@ public class JogoActivity extends Activity {
 
 	public void moveRight(View v){
 		tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.bomber.moveRight(tj.bomber.getX(),tj.getWidth(),tj.bomber.getBitmap().getWidth());
+		tj.bomber.moveRight();
 		//		tj.robot.moveRight(tj.robot.getX(),tj.getWidth(), tj.robot.getBitmap().getWidth());
 	}
 
