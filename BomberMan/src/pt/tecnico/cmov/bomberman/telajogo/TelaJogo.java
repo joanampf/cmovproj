@@ -108,50 +108,66 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback{
 	}
 
 	public void insereNoTabuleiro(){
-		
+
 	}
 
 
-//nao desenha
-	public void CriaTabuleiro(Canvas cv){
+	//nao desenha
+//	public void CriaTabuleiro(Canvas cv){
+//
+//
+//		char[][] tabuleiroInit = JogoActivity.tabuleiroInit;
+//		int coluna;
+//		int linha;
+//		int num_linhas = tabuleiroInit.length;
+//		int num_colunas = tabuleiroInit[0].length;
+//
+//		//		for(linha=0;linha<num_linhas;linha++){
+//		//			for(coluna=0;coluna<num_colunas;coluna++){
+//
+//		getHolder().addCallback(this);
+//		wall = new Wall(BitmapFactory.decodeResource(getResources(), R.drawable.bomberman),200,200);
+//		thread = new MainThread(getHolder(), this);
+//		setFocusable(true);
+//		wall.draw(cv);
+//
+//		//				char a=tabuleiroInit[linha][coluna];
+//		//			}
+//		//		}
+//		controlo=true;
+//
+//
+//	}
 
+
+
+	@Override
+	protected void onDraw(Canvas cv) {
 
 		char[][] tabuleiroInit = JogoActivity.tabuleiroInit;
 		int coluna;
 		int linha;
 		int num_linhas = tabuleiroInit.length;
 		int num_colunas = tabuleiroInit[0].length;
-		
-//		for(linha=0;linha<num_linhas;linha++){
-//			for(coluna=0;coluna<num_colunas;coluna++){
-				
-				getHolder().addCallback(this);
-				wall = new Wall(BitmapFactory.decodeResource(getResources(), R.drawable.bomberman),200,200);
-				thread = new MainThread(getHolder(), this);
-				setFocusable(true);
-				wall.draw(cv);
-				
-//				char a=tabuleiroInit[linha][coluna];
-//			}
-//		}
-		controlo=true;
-		
-		
-	}
 
 
-
-	@Override
-	protected void onDraw(Canvas cv) {
 		cv.drawColor(Color.parseColor("#33bb22"));
 		bomber.draw(cv);
 		robot.draw(cv);
-		
-		if(!controlo){
-			CriaTabuleiro(cv);
 
+		if(!controlo){
+			for(linha=0;linha<num_linhas;linha++){
+				for(coluna=0;coluna<num_colunas;coluna++){
+					getHolder().addCallback(this);
+					
+					wall = new Wall(BitmapFactory.decodeResource(getResources(), R.drawable.wall),linha,coluna);
+					thread = new MainThread(getHolder(), this);
+					setFocusable(true);
+					wall.draw(cv);
+				}
+			}
 		}
-		
+
 		if (JogoActivity.tempoActivo)
 			try {
 				robot.moveRobot(robot.getX(), robot.getY(), robot.getBitmap().getHeight(), robot.getBitmap().getWidth(), this.getHeight(), this.getWidth());
