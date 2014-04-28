@@ -122,8 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/button1"
             android:layout_alignParentBottom="true"
-            android:text="Quit"
-            android:onClick="quit" />
+            android:text="Quit"/>
 
         <Button
             android:id="@+id/pauseplay"

@@ -27,10 +27,10 @@ public class JogoActivity extends Activity {
 	public Nivel nivel;
 
 	// ta a dar erro, tentar encher matriz
-	public char[][] tabuleiroInit=new char[30][30];
-	
-	
-	
+	public static char[][] tabuleiroInit;
+
+
+
 	public ImageButton moveleft ;
 	public ImageButton moveup ;
 	public ImageButton movedown ;
@@ -68,61 +68,83 @@ public class JogoActivity extends Activity {
 	public Nivel readFile() throws IOException
 	{
 		InputStream in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
+		BufferedReader br_aux = new BufferedReader(new InputStreamReader(in));
+		BufferedReader br  = new BufferedReader(new InputStreamReader(in));
+		
+		
+		
+		int num_colunas=0;
+		int num_linhas=0;
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		try {
 			StringBuilder sb = new StringBuilder();
-
-			String line = br.readLine();
-
+			String line = br_aux.readLine();
+			//br.aux para contar o numero de linhas, de forma a determinar as correspondentes ao tabuleiro
+			while (line != null) {
+				num_linhas++;
+				line = br_aux.readLine();
+			}
+			
+			in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
+			br = new BufferedReader(new InputStreamReader(in));
+			
+			line = br.readLine();
+			num_linhas--;
+			
 			String name = line;
 			line = br.readLine();
+			num_linhas--;
 			Integer duracao = Integer.valueOf(line);
 			line = br.readLine();
+			num_linhas--;
 			Integer timeoutExplosao = Integer.valueOf(line);
 			line = br.readLine();
+			num_linhas--;
 			Integer duracaoExplosao = Integer.valueOf(line);
 			line = br.readLine();
+			num_linhas--;
 			Integer rangeExplosao = Integer.valueOf(line);
 			line = br.readLine();
+			num_linhas--;
 			Integer velocidadeRobot = Integer.valueOf(line);
 			line = br.readLine();
+			num_linhas--;
 			Integer pontosRobot = Integer.valueOf(line);
 			line = br.readLine();
+			num_linhas--;
 			Integer pontosRival = Integer.valueOf(line);
-			line = br.readLine();
+			line=br.readLine();
+			
+			num_colunas = line.length();
+			tabuleiroInit=new char[num_linhas][num_colunas];
 
 			int coluna;
 			int linha = 0;
-			
-			// line.lenght = no. colunas
-			// ver lenght br = no. linhas
+
 			while (line != null) {
 				coluna=0;
 				sb.append(line);
 				sb.append(System.lineSeparator());
-				
-				
+
+				//numero colunas
+
+
 				for(coluna=0;coluna<line.length();coluna++){
-					
+
 					tabuleiroInit[linha][coluna]=line.charAt(coluna);
 				}
-				
+//				System.out.println("tabuleiro na linha"+linha+": "+tabuleiroInit[linha][0]);
 				linha++;
-				
-				//Inserir linha no tabuleiro
-				//desenhar tabuleiro de jogo inicial
-				
-
 				line = br.readLine();
 
 			}
 			String filepath = sb.toString();
-			//			System.out.println("grid: "+filepath);
 			nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival, filepath);
 			return nivel;
 		} finally {
+			
 			br.close();
+			br_aux.close();
 		}
 	}
 
