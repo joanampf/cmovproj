@@ -27,6 +27,15 @@ public class Robot {
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
+	
+	public int[] getPosicao(Bitmap bitmap){
+		int [] result = new int[2];
+		result[0]= this.getX()/bitmap.getWidth()-1;
+		result[1]= this.getY()/bitmap.getHeight()-1;
+		return result;
+		
+		
+	}
 	public int getX() {
 		return x;
 	}
@@ -54,42 +63,44 @@ public class Robot {
 	
 
 
-	public void moveRobot() throws InterruptedException{
-		//		while (JogoActivity.tempoActivo){
-		int aleatorio=(int) (Math.random() * 4);
-		
+//	public void moveRobot() throws InterruptedException{
+//		//		while (JogoActivity.tempoActivo){
+//		int aleatorio=(int) (Math.random() * 4);
+//		
+//
+//		switch (aleatorio){
+//
+//		case 0: moveUp();
+//		Thread.sleep(500);
+//		break;
+////		case 1: moveDown(y, canvasHeight, imageHeight);
+//		case 1: moveDown();
+//		Thread.sleep(500);
+//		break;
+////		case 2: moveRight(x, canvasWidth, imageWidth);
+//		case 2: moveRight();
+//		Thread.sleep(500);
+//		break;
+////		case 3: moveLeft(x, imageWidth);
+//		case 3: moveLeft();
+//		Thread.sleep(500);
+//		break;
+//		default: break;
+//
+//		}
+//		//		}
+//
+//	}
 
-		switch (aleatorio){
 
-		case 0: moveUp();
-		Thread.sleep(500);
-		break;
-//		case 1: moveDown(y, canvasHeight, imageHeight);
-		case 1: moveDown();
-		Thread.sleep(500);
-		break;
-//		case 2: moveRight(x, canvasWidth, imageWidth);
-		case 2: moveRight();
-		Thread.sleep(500);
-		break;
-//		case 3: moveLeft(x, imageWidth);
-		case 3: moveLeft();
-		Thread.sleep(500);
-		break;
-		default: break;
-
-		}
-		//		}
-
-	}
-
-
-	public void moveUp() {
+	public void moveUp(int[] posicao) {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
-		int[] posicao = new int[2];
-		posicao=tab.getPosicao('R');
+//		int[] posicao = new int[2];
+//		posicao=tab.getPosicao('R');
+		if(posicao[0]<13 && posicao[1]<13){
 		tab.setTabuleiro(posicao[0]-1, posicao[1], 'R');
 		tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
 		
 	}
 

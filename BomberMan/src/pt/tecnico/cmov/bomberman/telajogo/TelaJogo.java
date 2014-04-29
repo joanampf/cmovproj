@@ -116,6 +116,8 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		int numero_robot=0; 
 		int coluna;
 		int linha;
+		Robot[] robots = new Robot[2];
+		int indice_robot=0;
 		int num_linhas = tabuleiro.getNum_linhas();
 		int num_colunas = tabuleiro.getNum_colunas();
 		Bitmap bit = BitmapFactory.decodeResource(getResources(),
@@ -150,25 +152,33 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					robot.draw(cv);
+					
+					if(!controlo){
+						System.out.println("ENTREEEEEEEI!");
+						robots[indice_robot]= robot;
+						
+						indice_robot++;
+					}
+										
 					break;
 				case 'O':
 					obstaculo = new Obstaculo(BitmapFactory.decodeResource(
 							getResources(), R.drawable.obstaculo), coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
+					obstaculo.draw(cv);
 					break;
 					
 					//criar classe obstaculo
 				}
 			}
 		}
-		if (JogoActivity.tempoActivo)
-			try {
-				robot.moveRobot();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		controlo = true;
+		
+		if (JogoActivity.tempoActivo){
+			robots[0].moveUp(robots[0].getPosicao(bit));
+		}
+//				robots[0].moveRobot();
 
 		// Paint p = new Paint();
 		// p.setColor(Color.GREEN);
