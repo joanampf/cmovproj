@@ -115,7 +115,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	protected void onDraw(Canvas cv) {
 
 		Tabuleiro tabuleiro = JogoActivity.tabuleiroInit;
-		int numero_robot=0; 
 		int coluna;
 		int linha;
 		ArrayList<Robot> robots = new ArrayList<Robot>();
