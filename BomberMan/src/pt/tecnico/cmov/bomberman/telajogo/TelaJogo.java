@@ -30,10 +30,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
 
-//		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
-//				R.drawable.bomberman), 50, 50);
-//		robot = new Robot(BitmapFactory.decodeResource(getResources(),
-//				R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}
@@ -43,10 +39,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
 
-//		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
-//				R.drawable.bomberman), 50, 50);
-//		robot = new Robot(BitmapFactory.decodeResource(getResources(),
-//				R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}
@@ -58,10 +50,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 
 		getHolder().addCallback(this);
 
-//		bomber = new Bomberman(BitmapFactory.decodeResource(getResources(),
-//				R.drawable.bomberman), 50, 50);
-//		robot = new Robot(BitmapFactory.decodeResource(getResources(),
-//				R.drawable.mariobot), 100, 100);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 
@@ -119,33 +107,6 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 
 	}
 
-	// nao desenha
-	// public void CriaTabuleiro(Canvas cv){
-	//
-	//
-	// char[][] tabuleiroInit = JogoActivity.tabuleiroInit;
-	// int coluna;
-	// int linha;
-	// int num_linhas = tabuleiroInit.length;
-	// int num_colunas = tabuleiroInit[0].length;
-	//
-	// // for(linha=0;linha<num_linhas;linha++){
-	// // for(coluna=0;coluna<num_colunas;coluna++){
-	//
-	// getHolder().addCallback(this);
-	// wall = new Wall(BitmapFactory.decodeResource(getResources(),
-	// R.drawable.bomberman),200,200);
-	// thread = new MainThread(getHolder(), this);
-	// setFocusable(true);
-	// wall.draw(cv);
-	//
-	// // char a=tabuleiroInit[linha][coluna];
-	// // }
-	// // }
-	// controlo=true;
-	//
-	//
-	// }
 
 	@SuppressLint("DrawAllocation")
 	@Override
@@ -183,9 +144,9 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 					bomber.draw(cv);
 					break;
 				case 'R':
-					//ver robots - andar aleatoriamente
+					//robots - andar aleatoriamente
 					robot = new Robot(BitmapFactory.decodeResource(
-							getResources(), R.drawable.mariobot), coluna
+							getResources(), R.drawable.robot), coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					robot.draw(cv);
