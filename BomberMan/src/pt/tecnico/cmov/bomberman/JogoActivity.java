@@ -6,15 +6,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
+import pt.tecnico.cmov.bomberman.telajogo.Bomba;
 import pt.tecnico.cmov.bomberman.telajogo.Tabuleiro;
 import pt.tecnico.cmov.bomberman.telajogo.TelaJogo;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -25,7 +28,7 @@ public class JogoActivity extends Activity {
 	public CountDownTimer clock;
 	private TextView tx1;
 	public Boolean isPaused=false;
-	public Nivel nivel;
+	public static Nivel nivel;
 
 	// ta a dar erro, tentar encher matriz
 	public static Tabuleiro tabuleiroInit;
@@ -241,6 +244,17 @@ public class JogoActivity extends Activity {
 		tj = (TelaJogo) findViewById(R.id.telajogo);
 		tj.bomber.moveRight();
 		//		tj.robot.moveRight(tj.robot.getX(),tj.getWidth(), tj.robot.getBitmap().getWidth());
+	}
+	
+	public void quit(View v){
+		//APOS UM POPUP A PERGUNTAR SE TEM A CERTEZA
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+	}
+	
+	public void colocaBomba(View v){
+		int[] posicao=this.tabuleiroInit.getPosicao('1');
+		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');	
 	}
 
 }

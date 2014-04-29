@@ -46,39 +46,61 @@ public class Bomberman {
 
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
-//	public void moveUp(int y, int imagelength) {
+	
+	public boolean colisao(int xseguinte, int yseguinte){
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		if(tab.getTabuleiro(xseguinte, yseguinte)=='-'){
+			return true;
+		}
+		else if (tab.getTabuleiro(xseguinte, yseguinte)=='1'){
+			//lançar pop de gameover
+			return true;
+		}
+		else
+			return false;
+
+	}
+
 	public void moveUp() {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int[] posicao = new int[2];
 		posicao=tab.getPosicao('1');
-		tab.setTabuleiro(posicao[0]-1, posicao[1], '1');
-		tab.setTabuleiro(posicao[0], posicao[1], '-');
-		
+		//verifica se na proxima posiçao existe ja um item
+		if (this.colisao(posicao[0]-1, posicao[1])){
+			tab.setTabuleiro(posicao[0]-1, posicao[1], '1');
+			tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
 	}
 
 	public void moveDown() {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int[] posicao = new int[2];
 		posicao=tab.getPosicao('1');
-		tab.setTabuleiro(posicao[0]+1, posicao[1], '1');
-		tab.setTabuleiro(posicao[0], posicao[1], '-');
-		
+		if (this.colisao(posicao[0]+1, posicao[1])){
+			tab.setTabuleiro(posicao[0]+1, posicao[1], '1');
+			tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
+
+
 	}
 
 	public void moveRight() {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int[] posicao = new int[2];
 		posicao=tab.getPosicao('1');
-		tab.setTabuleiro(posicao[0], posicao[1]+1, '1');
-		tab.setTabuleiro(posicao[0], posicao[1], '-');
-		
+		if (this.colisao(posicao[0], posicao[1]+1)){
+			tab.setTabuleiro(posicao[0], posicao[1]+1, '1');
+			tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
 	}
 	public void moveLeft() {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int[] posicao = new int[2];
 		posicao=tab.getPosicao('1');
-		tab.setTabuleiro(posicao[0], posicao[1]-1, '1');
-		tab.setTabuleiro(posicao[0], posicao[1], '-');
+		if (this.colisao(posicao[0], posicao[1]-1)){
+			tab.setTabuleiro(posicao[0], posicao[1]-1, '1');
+			tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
 	}
 
 

@@ -1,6 +1,8 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
+import pt.tecnico.cmov.bomberman.JogoActivity;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 public class Bomba {
 	
@@ -41,9 +43,16 @@ public class Bomba {
 		this.touched = touched;
 	}
 	
+	public void draw(Canvas canvas) {
+
+		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
+	}
 	
 //	quando bomba explode tem de ser retirada e tratada a explosao
-	public void explode(){
+	public void explode(int [] posicao){
+		int range= JogoActivity.nivel.getExplosionRange();
+		int explosion_timeout= JogoActivity.nivel.getExplosionTimeout();
+		int explosion_duration = JogoActivity.nivel.getExplosionDuration();
 		
 	}
 }

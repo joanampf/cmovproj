@@ -1,5 +1,7 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
+import java.util.ArrayList;
+
 import pt.tecnico.cmov.bomberman.JogoActivity;
 import pt.tecnico.cmov.bomberman.R;
 import android.annotation.SuppressLint;
@@ -21,7 +23,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	private MainThread thread;
 
 	public Bomberman bomber;
-	public Robot robot;
+
 	public Wall wall;
 	public Obstaculo obstaculo;
 
@@ -116,8 +118,8 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		int numero_robot=0; 
 		int coluna;
 		int linha;
-		Robot[] robots = new Robot[2];
-		int indice_robot=0;
+		ArrayList<Robot> robots = new ArrayList<Robot>();
+		int num_robots=0;
 		int num_linhas = tabuleiro.getNum_linhas();
 		int num_colunas = tabuleiro.getNum_colunas();
 		Bitmap bit = BitmapFactory.decodeResource(getResources(),
@@ -147,19 +149,15 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 				case 'R':
 					//robots - andar aleatoriamente
+					Robot robot;
 					robot = new Robot(BitmapFactory.decodeResource(
 							getResources(), R.drawable.robot), coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
-					robot.draw(cv);
-					
-					if(!controlo){
-						System.out.println("ENTREEEEEEEI!");
-						robots[indice_robot]= robot;
-						
-						indice_robot++;
-					}
-										
+					robots.add(robot);
+					num_robots ++;
+					robot.draw(cv);	
+
 					break;
 				case 'O':
 					obstaculo = new Obstaculo(BitmapFactory.decodeResource(
@@ -168,25 +166,37 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 							* bit.getHeight() + bit.getHeight() / 2);
 					obstaculo.draw(cv);
 					break;
-					
+				case 'B':
+					Bomba bomba;
+					bomba = new Bomba(BitmapFactory.decodeResource(
+							getResources(), R.drawable.bomba), coluna
+							* bit.getWidth() + bit.getWidth() / 2, linha
+							* bit.getHeight() + bit.getHeight() / 2);
+					bomba.draw(cv);
+					break;
+
 					//criar classe obstaculo
 				}
 			}
 		}
 		controlo = true;
-		
+		try {
 		if (JogoActivity.tempoActivo){
-			robots[0].moveUp(robots[0].getPosicao(bit));
+			for(int i=0 ; i<num_robots; i++)
+					tabuleiro.moveRobot(robots.get(i), bit);
 		}
-//				robots[0].moveRobot();
-
-		// Paint p = new Paint();
-		// p.setColor(Color.GREEN);
-		// p.setStrokeWidth(5);
-		// cv.drawLine(20, 0, 20, cv.getHeight(), p);
-		// cv.drawBitmap(BitmapFactory.decodeResource(getResources(),
-		// R.drawable.bomberman), 70, 20, null);
-
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 	}
+	//				robots[0].moveRobot();
+
+	// Paint p = new Paint();
+	// p.setColor(Color.GREEN);
+	// p.setStrokeWidth(5);
+	// cv.drawLine(20, 0, 20, cv.getHeight(), p);
+	// cv.drawBitmap(BitmapFactory.decodeResource(getResources(),
+	// R.drawable.bomberman), 70, 20, null);
 
 }
