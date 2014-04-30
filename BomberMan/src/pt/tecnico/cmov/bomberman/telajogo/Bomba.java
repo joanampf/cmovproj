@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 public class Bomba {
-	
+
 	private Bitmap bitmap; // the actual bitmap
 	private int x;   // the X coordinate
 	private int y;   // the Y coordinate
@@ -42,17 +42,56 @@ public class Bomba {
 	public void setTouched(boolean touched) {
 		this.touched = touched;
 	}
-	
+
 	public void draw(Canvas canvas) {
 
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
-	
-//	quando bomba explode tem de ser retirada e tratada a explosao
-	public void explode(int [] posicao){
+
+
+
+	//	quando bomba explode tem de ser retirada e tratada a explosao
+	//colocar pontos
+	public void explode(int [] posicao) throws InterruptedException{
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int range= JogoActivity.nivel.getExplosionRange();
 		int explosion_timeout= JogoActivity.nivel.getExplosionTimeout();
-		int explosion_duration = JogoActivity.nivel.getExplosionDuration();
+		int i;
 		
+		System.out.println("range: "+range);
+		System.out.println("x y: "+ posicao[0] + " "+ posicao[1]);
+
+		Thread.sleep(100/explosion_timeout);
+
+		tab.setTabuleiro(posicao[0], posicao[1], 'E');
+
+		//range e 2 e ele so faz pa 1
+		for (i=0; i<range; i++){
+
+			if(tab.getTabuleiro(posicao[0]+i, posicao[1]) != 'W')
+				tab.setTabuleiro(posicao[0]+i, posicao[1], 'E');
+
+			if(tab.getTabuleiro(posicao[0], posicao[1]+i) != 'W')
+				tab.setTabuleiro(posicao[0], posicao[1]+i, 'E');
+
+			if(tab.getTabuleiro(posicao[0]-i, posicao[1]) != 'W')
+				tab.setTabuleiro(posicao[0]-i, posicao[1], 'E');
+
+			if(tab.getTabuleiro(posicao[0], posicao[1]-i) != 'W')
+				tab.setTabuleiro(posicao[0], posicao[1]-i, 'E');
+
+		}
+
+
+
+	}
+
+	public void acabaExplosao(int[] posicao) throws InterruptedException {
+		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		int explosion_duration = JogoActivity.nivel.getExplosionDuration();
+
+		Thread.sleep(100/explosion_duration);
+		tab.setTabuleiro(posicao[0], posicao[1], '-');
+
 	}
 }

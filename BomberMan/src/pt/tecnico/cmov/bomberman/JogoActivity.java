@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.widget.ExploreByTouchHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -254,7 +255,19 @@ public class JogoActivity extends Activity {
 	
 	public void colocaBomba(View v){
 		int[] posicao=this.tabuleiroInit.getPosicao('1');
-		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');	
+		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');
+		
+		if(this.tabuleiroInit.getTabuleiro(posicao[0]-1, posicao[1])=='-')
+			this.tabuleiroInit.setTabuleiro(posicao[0]-1, posicao[1], '1');
+		else if(this.tabuleiroInit.getTabuleiro(posicao[0]+1, posicao[1])=='-')
+			this.tabuleiroInit.setTabuleiro(posicao[0]+1, posicao[1], '1');
+		else if(this.tabuleiroInit.getTabuleiro(posicao[0], posicao[1]+1)=='-')
+			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]+1, '1');
+		else if(this.tabuleiroInit.getTabuleiro(posicao[0], posicao[1]-1)=='-')
+			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]-1, '1');
+			
+		
+		
 	}
 
 }
