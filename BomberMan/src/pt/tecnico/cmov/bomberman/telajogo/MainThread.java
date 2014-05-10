@@ -16,7 +16,7 @@ public class MainThread extends Thread{
 	private TelaJogo gamePanel;
 
 	// flag to hold game state 
-	private boolean running;
+	public boolean running;
 	public void setRunning(boolean running) {
 		this.running = running;
 	}

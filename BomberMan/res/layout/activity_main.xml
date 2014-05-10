@@ -9,35 +9,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <EditText
-        android:id="@+id/nomeJogador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="181dp"
-        android:ems="10"
-        android:hint="Inserir Nome"
-        android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/botaoNomeJogador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/nomeJogador"
-        android:layout_toRightOf="@+id/nomeJogador"
-        android:onClick="insereNomeJogador"
-        android:text="Jogar!" />
-
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/botaoNomeJogador"
-        android:layout_marginRight="38dp"
-        android:layout_marginTop="47dp"
+        android:layout_alignBottom="@+id/nomeJogador"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="72dp"
         android:src="@drawable/introbomber" />
+
+    <EditText
+        android:id="@+id/nomeJogador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="193dp"
+        android:ems="10"
+        android:hint="Inserir Nome"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/botaoJogarOffline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nomeJogador"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="32dp"
+        android:onClick="JogarOffline"
+        android:text="Jogar Offline" />
+        
+            <Button
+        android:id="@+id/botaoJogarOnline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/botaoJogarOffline"
+        android:layout_below="@+id/botaoJogarOffline"
+        android:layout_marginTop="20dp"
+        android:onClick="JogarOnline"
+        android:text="Jogar Online" />
 
 </RelativeLayout>

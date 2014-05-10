@@ -4,11 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.Arrays;
 
 import pt.tecnico.cmov.bomberman.telajogo.Bomba;
 import pt.tecnico.cmov.bomberman.telajogo.Tabuleiro;
 import pt.tecnico.cmov.bomberman.telajogo.TelaJogo;
+import shared.*;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -27,12 +33,15 @@ public class JogoActivity extends Activity {
 
 	public static boolean tempoActivo=true;
 	public CountDownTimer clock;
-	private TextView tx1;
+	private TextView timeLeft;
+	private TextView playerScore;
+
 	public Boolean isPaused=false;
-	public static Nivel nivel;
+	public static Nivel nivel =null;
+	public static int score;
 
 	// ta a dar erro, tentar encher matriz
-	public static Tabuleiro tabuleiroInit;
+	public static Tabuleiro tabuleiroInit = null;
 
 
 
@@ -43,6 +52,13 @@ public class JogoActivity extends Activity {
 	public Button bomb;
 	public Button pause;
 	public TelaJogo tj;
+	
+	
+	private Socket client = null;
+    private OutputStream outputStream;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+    private InputStream inputStream;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,28 +66,100 @@ public class JogoActivity extends Activity {
 		setContentView(R.layout.activity_jogo);
 		Intent intent = getIntent();
 		String nome = intent.getStringExtra(MainActivity.NOME);
+		boolean online = intent.getExtras().getBoolean("online");
 		TextView tx = (TextView) findViewById(R.id.playerName);
 		tx.setText(nome);
-
+		score = 0;
 		pause = (Button)findViewById(R.id.pauseplay);
 		moveleft = (ImageButton) findViewById(R.id.botaoesq);
 		moveup = (ImageButton) findViewById(R.id.botaocima);
 		movedown = (ImageButton) findViewById(R.id.botaobaixo);
 		moveright = (ImageButton) findViewById(R.id.botaodir);
 		bomb = (Button)findViewById(R.id.bomb);
-
+		tj = (TelaJogo) findViewById(R.id.telajogo);
+		tj.currentActv = this;
+		tj.onlineMode = online;
 		try {
-			readFile();
-		} catch (IOException e) {
+			if(!online){
+				readFile();
+			}else{
+				new Thread(new Runnable() { 
+					 public void run() { 
+						 ConnectToServer();
+					 } 
+					 }).start(); 
+			}
+			} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		while(nivel == null){} // wait for nivel to be created
+		
 		init(nivel);
 	}
+	
+	public void ConnectToServer(){
+		if(client == null){
+	    	try {
+				client = new Socket("10.0.2.2", 4000);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			}
+		// connect to the server and send the message
+	    try {
+	       	System.out.println("sending new request");
 
+	        Request r = new Request();
+	        r.playerId = '1';
+	        r.message = "NewGame";
+	            
+	        outputStream = client.getOutputStream();  
+			objectOutputStream = new ObjectOutputStream(outputStream);  
+			objectOutputStream.writeObject(r);  
+			
+			inputStream = client.getInputStream();		                
+            objectInputStream = new ObjectInputStream(inputStream); 	                
+            tabuleiroInit = (Tabuleiro) objectInputStream.readObject();
+            nivel = (Nivel) objectInputStream.readObject();
+            System.out.println("I got something from the server!");
+            
+            RecieveUpdates();
+            
+	    } catch (IOException e) {
+	            e.printStackTrace();
+	            System.out.println(e.getMessage());
+	    } catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void RecieveUpdates() throws OptionalDataException, ClassNotFoundException, IOException{
+		while(true){
+			  Tabuleiro newTab;
+			    while ((newTab = (Tabuleiro)objectInputStream.readObject()) != null) {
+			    	tabuleiroInit = newTab;
+			    }
+			    
+			//print tabuleiro
+            System.out.println("new tab ----------");
+            int coluna;
+			int linha;
+			int num_linhas = tabuleiroInit.getNum_linhas();
+			int num_colunas = tabuleiroInit.getNum_colunas();
+			for (linha = 0; linha < num_linhas; linha++) {
+				for (coluna = 0; coluna < num_colunas; coluna++) {
+					System.out.print(tabuleiroInit.getTabuleiro(linha, coluna));
+				}
+				System.out.print("\n");
+			}
+		}
+	}
+	
 	public Nivel readFile() throws IOException
 	{
+		System.out.println("reading file");
 		InputStream in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
 		BufferedReader br_aux = new BufferedReader(new InputStreamReader(in));
 		BufferedReader br  = new BufferedReader(new InputStreamReader(in));
@@ -167,11 +255,13 @@ public class JogoActivity extends Activity {
 	public void initTime(Integer tempo){
 
 
-		tx1 = (TextView) findViewById(R.id.timeLeft);
+		timeLeft = (TextView) findViewById(R.id.timeLeft);
+		playerScore = (TextView) findViewById(R.id.playerScore);
 		clock = new CountDownTimer((long)tempo*1000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
-				tx1.setText(""+ millisUntilFinished / 1000);
+				timeLeft.setText(""+ millisUntilFinished / 1000);
+				playerScore.setText("" + score);
 			}
 			public void onFinish() {
 				tempoActivo=false;
@@ -181,7 +271,7 @@ public class JogoActivity extends Activity {
 				moveleft.setEnabled(false);
 				bomb.setEnabled(false);
 				pause.setEnabled(false);
-				tx1.setText("done!");
+				timeLeft.setText("done!");
 			}
 		}.start();
 
@@ -189,7 +279,7 @@ public class JogoActivity extends Activity {
 
 	public void pausePlay(View v) throws InterruptedException{
 		System.out.println("pauseplay ******");
-		String tempoRestante = tx1.getText().toString();
+		String tempoRestante = timeLeft.getText().toString();
 
 		if(!isPaused){
 			clock.cancel();
@@ -255,7 +345,6 @@ public class JogoActivity extends Activity {
 	
 	public void colocaBomba(View v){
 		int[] posicao=this.tabuleiroInit.getPosicao('1');
-		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');
 		
 		if(this.tabuleiroInit.getTabuleiro(posicao[0]-1, posicao[1])=='-')
 			this.tabuleiroInit.setTabuleiro(posicao[0]-1, posicao[1], '1');
@@ -265,9 +354,12 @@ public class JogoActivity extends Activity {
 			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]+1, '1');
 		else if(this.tabuleiroInit.getTabuleiro(posicao[0], posicao[1]-1)=='-')
 			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]-1, '1');
-			
+					
+		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');
 		
+
 		
+
 	}
 
 }

@@ -109,4 +109,6 @@ public class Robot {
 			tab.setTabuleiro(posicao[0], posicao[1], '-');
 		}
 	}
+	
+	
 }

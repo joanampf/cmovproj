@@ -18,11 +18,21 @@ public class MainActivity extends Activity {
 		
 	}
 
-	public void insereNomeJogador(View v){
+	public void JogarOffline(View v){
 		Intent intent = new Intent(this, JogoActivity.class);
 		EditText editText = (EditText) findViewById(R.id.nomeJogador);
 		String nome = editText.getText().toString();
 		intent.putExtra(NOME, nome);
+		intent.putExtra("online", false);
+		startActivity(intent);
+	}
+	
+	public void JogarOnline(View v){
+		Intent intent = new Intent(this, JogoActivity.class);
+		EditText editText = (EditText) findViewById(R.id.nomeJogador);
+		String nome = editText.getText().toString();
+		intent.putExtra(NOME, nome);
+		intent.putExtra("online", true);
 		startActivity(intent);
 	}
 	

@@ -3,17 +3,23 @@ package pt.tecnico.cmov.bomberman.telajogo;
 import java.util.ArrayList;
 
 import pt.tecnico.cmov.bomberman.JogoActivity;
+import pt.tecnico.cmov.bomberman.MainActivity;
 import pt.tecnico.cmov.bomberman.R;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -23,16 +29,29 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	private MainThread thread;
 
 	public Bomberman bomber;
-
+	
+	public static Context cont;
+	public Activity currentActv;
+	public boolean onlineMode = false; 
+	public boolean running = true;
 	public Wall wall;
 	public Obstaculo obstaculo;
 	public Bomba bomba;
+	ArrayList<Robot> robots = new ArrayList<Robot>();
+	Tabuleiro tabuleiro = JogoActivity.tabuleiroInit;
+	Bitmap bit = BitmapFactory.decodeResource(getResources(), R.drawable.wall);
+    private final Object lock = new Object();
+    
+    int counter = 0;
+
+	int num_robots = 0;
 
 	public TelaJogo(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
 
+		cont = context;
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}
@@ -41,6 +60,8 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 		getHolder().addCallback(this);
+
+		cont = context;
 
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
@@ -52,6 +73,8 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		// adding the callback (this) to the surface holder to intercept events
 
 		getHolder().addCallback(this);
+
+		cont = context;
 
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
@@ -72,9 +95,36 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		thread.setRunning(true);
 
 		thread.start();
-
+		
+		if(!onlineMode){
+			new Thread(new Runnable() { 
+				 public void run() { 
+						GameLogic();
+				 } 
+				 }).start(); 
+		}
 	}
 
+	public void GameLogic(){
+		int velocidade = JogoActivity.nivel.getRobotSpeed();
+		while(running){
+			try {
+				if (JogoActivity.tempoActivo) {
+			        synchronized (lock) {
+
+					for (int i = 0; i < num_robots; i++)
+						tabuleiro.moveRobot(robots.get(i), bit);
+			        }
+					Thread.sleep(1000 * velocidade);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}		
+		}
+	}
+	
+	
+	
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 
@@ -113,24 +163,26 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas cv) {
+        synchronized (lock) {
 
-		Tabuleiro tabuleiro = JogoActivity.tabuleiroInit;
+        tabuleiro = JogoActivity.tabuleiroInit;
 		int coluna;
 		int linha;
-		ArrayList<Robot> robots = new ArrayList<Robot>();
-		int num_robots = 0;
+		robots = new ArrayList<Robot>();
+		num_robots = 0;
 		int num_linhas = tabuleiro.getNum_linhas();
 		int num_colunas = tabuleiro.getNum_colunas();
-		Bitmap bit = BitmapFactory.decodeResource(getResources(),
-				R.drawable.wall);
+
 
 		cv.drawColor(Color.parseColor("#33bb22"));
+		
+
 
 		for (linha = 0; linha < num_linhas; linha++) {
 			for (coluna = 0; coluna < num_colunas; coluna++) {
 				getHolder().addCallback(this);
 				
-				int[] posicao = new int[2];
+				final int[] posicao = new int[2];
 				posicao[0] = linha;
 				posicao[1] = coluna;
 				
@@ -178,10 +230,16 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					bomba.draw(cv);
-					try {
-						bomba.explode(posicao);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+					if(!onlineMode){
+						new Thread(new Runnable() { 
+							 public void run() { 
+									try {
+										bomba.explode(posicao);
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
+							 } 
+							 }).start(); 
 					}
 					break;
 
@@ -191,26 +249,49 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					bomba.draw(cv);
-					try {
-						bomba.acabaExplosao(posicao);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					/*new Thread(new Runnable() { 
+						 public void run() { 
+								try {
+									bomba.acabaExplosao(posicao);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+						 } 
+						 }).start(); 
 					break;
-
+					 */
 				}
 			}
 		}
 		controlo = true;
-		try {
-			if (JogoActivity.tempoActivo) {
-				for (int i = 0; i < num_robots; i++)
-					tabuleiro.moveRobot(robots.get(i), bit);
+		
+		
+		// ve se o player está morto
+        int []playerPos = tabuleiro.getPosicao('1');
+        
+        if (playerPos == null){
+        	try {
+				running = false;
+				currentActv.runOnUiThread(new Runnable() {
+				    public void run() {
+				    	Toast toast = Toast.makeText(cont, "  Game Over\nFinal Score: " + JogoActivity.score, 20000);
+				    	toast.setGravity(Gravity.CENTER, 0, 0);
+				    	toast.show();
+				    }
+				});
+				Thread.sleep(2000);
+				Intent intent = new Intent(cont, MainActivity.class);
+				cont.startActivity(intent);
+				System.out.println("finishing current activity");
+				currentActv.finish();
+				thread.running = false;
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+        }
+        }
 	}
 	// robots[0].moveRobot();
 
@@ -220,5 +301,5 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	// cv.drawLine(20, 0, 20, cv.getHeight(), p);
 	// cv.drawBitmap(BitmapFactory.decodeResource(getResources(),
 	// R.drawable.bomberman), 70, 20, null);
-
+	
 }

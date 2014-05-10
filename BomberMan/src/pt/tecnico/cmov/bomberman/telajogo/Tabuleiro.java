@@ -1,9 +1,11 @@
 package pt.tecnico.cmov.bomberman.telajogo;
 
+import java.io.Serializable;
+
 import pt.tecnico.cmov.bomberman.JogoActivity;
 import android.graphics.Bitmap;
 
-public class Tabuleiro {
+public class Tabuleiro implements Serializable  {
 
 	public int num_linhas;
 	public int num_colunas;
@@ -73,19 +75,19 @@ public class Tabuleiro {
 		switch (aleatorio){
 
 		case 0: r.moveUp(bit);
-		Thread.sleep(100/velocidade);
+	//	Thread.sleep(100/velocidade);
 		break;
 //		case 1: moveDown(y, canvasHeight, imageHeight);
 		case 1: r.moveDown(bit);
-		Thread.sleep(100/velocidade);
+	//	Thread.sleep(100/velocidade);
 		break;
 //		case 2: moveRight(x, canvasWidth, imageWidth);
 		case 2: r.moveRight(bit);
-		Thread.sleep(100/velocidade);
+	//	Thread.sleep(100/velocidade);
 		break;
-//		case 3: moveLeft(x, imageWidth);
+//		case 3: moveLeft(x, imageWidth);z
 		case 3: r.moveLeft(bit);
-		Thread.sleep(100/velocidade);
+	//	Thread.sleep(100/velocidade);
 		break;
 		default: break;
 
@@ -93,4 +95,5 @@ public class Tabuleiro {
 		//		}
 
 	}
+	
 }
