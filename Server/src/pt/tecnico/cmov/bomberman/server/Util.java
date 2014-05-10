@@ -21,28 +21,30 @@ public class Util {
 		double aleatorio1= Math.random();
 		double aleatorio2= Math.random();
 		
-		int xseguinte;
-		int yseguinte;
+		int[] result = new int[]{x,y};
+
+		
+		int offset;
 		
 		if(aleatorio1 > 0.5){
-			xseguinte = 1;
+			offset = 1;
 		}else {
-			xseguinte = -1;
+			offset = -1;
 		}
 		
 		if(aleatorio2 > 0.5){
-			yseguinte = 1;
+			if(colisao(x + offset, y, tab)){
+				result = new int[]{x + offset, y};
+				}
 		}else {
-			yseguinte = -1;
+			if(colisao(x, y + offset, tab)){
+				result = new int[]{x, y + offset};
+			}
 		}
 		
-		if(colisao(xseguinte + x, yseguinte + y, tab)){
-			int[] result = new int[]{xseguinte + x, yseguinte + y};
-			return result;
-		}else {
-			int[] result = new int[]{x,y};
-			return result;
-		}
 	
+		return result;
+
+		
 	}
 }
