@@ -131,18 +131,7 @@ public class JogoActivity extends Activity {
 	public void RecieveUpdates() throws OptionalDataException, ClassNotFoundException, IOException{
 		Tabuleiro newTab;
 		while ((newTab = (Tabuleiro)objectInputStream.readObject()) != null) {
-			System.out.println("new tab ----------");
-			JogoActivity.tabuleiroInit = newTab;
-			int coluna;
-			int linha;
-			int num_linhas = tabuleiroInit.getNum_linhas();
-			int num_colunas = tabuleiroInit.getNum_colunas();
-			for (linha = 0; linha < num_linhas; linha++) {
-				for (coluna = 0; coluna < num_colunas; coluna++) {
-					System.out.print(newTab.getTabuleiro(linha, coluna));
-				}
-				System.out.print("\n");
-			}
+			JogoActivity.tabuleiroInit = newTab;		
 		}
 
 		//print tabuleiro

@@ -83,17 +83,8 @@ public class Main {
 
 			System.out.println("Sending new tab");
 
-			//print tabuleiro
-			num_linhas = tab.getNum_linhas();
-			num_colunas = tab.getNum_colunas();
-			for (linha = 0; linha < num_linhas; linha++) {
-				for (coluna = 0; coluna < num_colunas; coluna++) {
-					System.out.print(tab.getTabuleiro(linha, coluna));
-				}
-				System.out.print("\n");
-			}
-			JogoActivity.tabuleiroInit=tab;
-			objectOutputStream.writeObject(tab);    				
+			objectOutputStream.writeUnshared(tab);
+			objectOutputStream.reset();
 
 			Thread.sleep(1000);
 		}			
