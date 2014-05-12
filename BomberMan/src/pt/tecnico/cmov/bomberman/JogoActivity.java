@@ -9,22 +9,17 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Arrays;
 
-import pt.tecnico.cmov.bomberman.telajogo.Bomba;
 import pt.tecnico.cmov.bomberman.telajogo.Tabuleiro;
 import pt.tecnico.cmov.bomberman.telajogo.TelaJogo;
-import shared.*;
+import shared.Request;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.widget.ExploreByTouchHelper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -52,13 +47,13 @@ public class JogoActivity extends Activity {
 	public Button bomb;
 	public Button pause;
 	public TelaJogo tj;
-	
-	
+
+
 	private Socket client = null;
-    private OutputStream outputStream;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
-    private InputStream inputStream;
+	private OutputStream outputStream;
+	private ObjectOutputStream objectOutputStream;
+	private ObjectInputStream objectInputStream;
+	private InputStream inputStream;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,88 +79,87 @@ public class JogoActivity extends Activity {
 				readFile();
 			}else{
 				new Thread(new Runnable() { 
-					 public void run() { 
-						 ConnectToServer();
-					 } 
-					 }).start(); 
+					public void run() { 
+						ConnectToServer();
+					} 
+				}).start(); 
 			}
-			} catch (IOException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		while(nivel == null){} // wait for nivel to be created
-		
+
 		init(nivel);
 	}
-	
+
 	public void ConnectToServer(){
 		if(client == null){
-	    	try {
+			try {
 				client = new Socket("10.0.2.2", 4000);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			}
+		}
 		// connect to the server and send the message
-	    try {
-	       	System.out.println("sending new request");
+		try {
+			System.out.println("sending new request");
 
-	        Request r = new Request();
-	        r.playerId = '1';
-	        r.message = "NewGame";
-	            
-	        outputStream = client.getOutputStream();  
+			Request r = new Request();
+			r.playerId = '1';
+			r.message = "NewGame";
+
+			outputStream = client.getOutputStream();  
 			objectOutputStream = new ObjectOutputStream(outputStream);  
 			objectOutputStream.writeObject(r);  
-			
+
 			inputStream = client.getInputStream();		                
-            objectInputStream = new ObjectInputStream(inputStream); 	                
-            tabuleiroInit = (Tabuleiro) objectInputStream.readObject();
-            nivel = (Nivel) objectInputStream.readObject();
-            System.out.println("I got something from the server!");
-            
-            RecieveUpdates();
-            
-	    } catch (IOException e) {
-	            e.printStackTrace();
-	            System.out.println(e.getMessage());
-	    } catch (ClassNotFoundException e) {
+			objectInputStream = new ObjectInputStream(inputStream); 	                
+			tabuleiroInit = (Tabuleiro) objectInputStream.readObject();
+			nivel = (Nivel) objectInputStream.readObject();
+			System.out.println("I got something from the server!");
+			RecieveUpdates();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void RecieveUpdates() throws OptionalDataException, ClassNotFoundException, IOException{
-		while(true){
-			  Tabuleiro newTab;
-			    while ((newTab = (Tabuleiro)objectInputStream.readObject()) != null) {
-			    	tabuleiroInit = newTab;
-			    }
-			    
-			//print tabuleiro
-            System.out.println("new tab ----------");
-            int coluna;
+		Tabuleiro newTab;
+		while ((newTab = (Tabuleiro)objectInputStream.readObject()) != null) {
+			System.out.println("new tab ----------");
+			JogoActivity.tabuleiroInit = newTab;
+			int coluna;
 			int linha;
 			int num_linhas = tabuleiroInit.getNum_linhas();
 			int num_colunas = tabuleiroInit.getNum_colunas();
 			for (linha = 0; linha < num_linhas; linha++) {
 				for (coluna = 0; coluna < num_colunas; coluna++) {
-					System.out.print(tabuleiroInit.getTabuleiro(linha, coluna));
+					System.out.print(newTab.getTabuleiro(linha, coluna));
 				}
 				System.out.print("\n");
 			}
 		}
+
+		//print tabuleiro
+
+
+
 	}
-	
+
 	public Nivel readFile() throws IOException
 	{
 		System.out.println("reading file");
 		InputStream in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
 		BufferedReader br_aux = new BufferedReader(new InputStreamReader(in));
 		BufferedReader br  = new BufferedReader(new InputStreamReader(in));
-		
-		
-		
+
+
+
 		int num_colunas=0;
 		int num_linhas=0;
 
@@ -177,13 +171,13 @@ public class JogoActivity extends Activity {
 				num_linhas++;
 				line = br_aux.readLine();
 			}
-			
+
 			in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
 			br = new BufferedReader(new InputStreamReader(in));
-			
+
 			line = br.readLine();
 			num_linhas--;
-			
+
 			String name = line;
 			line = br.readLine();
 			num_linhas--;
@@ -207,7 +201,7 @@ public class JogoActivity extends Activity {
 			num_linhas--;
 			Integer pontosRival = Integer.valueOf(line);
 			line=br.readLine();
-			
+
 			num_colunas = line.length();
 			tabuleiroInit=new Tabuleiro(num_linhas, num_colunas);
 
@@ -226,7 +220,7 @@ public class JogoActivity extends Activity {
 
 					tabuleiroInit.tabuleiro[linha][coluna]=line.charAt(coluna);
 				}
-//				System.out.println("tabuleiro na linha"+linha+": "+tabuleiroInit[linha][0]);
+				//				System.out.println("tabuleiro na linha"+linha+": "+tabuleiroInit[linha][0]);
 				linha++;
 				line = br.readLine();
 
@@ -235,7 +229,7 @@ public class JogoActivity extends Activity {
 			nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival, filepath);
 			return nivel;
 		} finally {
-			
+
 			br.close();
 			br_aux.close();
 		}
@@ -314,7 +308,7 @@ public class JogoActivity extends Activity {
 	public void moveUp(View v){
 		tj = (TelaJogo) findViewById(R.id.telajogo);
 		System.out.println("Altura da imagem: "+tj.bomber.getBitmap().getHeight());
-//		tj.bomber.moveUp(tj.bomber.getY(),tj.bomber.getBitmap().getHeight());
+		//		tj.bomber.moveUp(tj.bomber.getY(),tj.bomber.getBitmap().getHeight());
 		tj.bomber.moveUp();
 		//		tj.robot.moveUp(tj.robot.getY(), tj.robot.getBitmap().getHeight());
 	}
@@ -336,16 +330,16 @@ public class JogoActivity extends Activity {
 		tj.bomber.moveRight();
 		//		tj.robot.moveRight(tj.robot.getX(),tj.getWidth(), tj.robot.getBitmap().getWidth());
 	}
-	
+
 	public void quit(View v){
 		//APOS UM POPUP A PERGUNTAR SE TEM A CERTEZA
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void colocaBomba(View v){
 		int[] posicao=this.tabuleiroInit.getPosicao('1');
-		
+
 		if(this.tabuleiroInit.getTabuleiro(posicao[0]-1, posicao[1])=='-')
 			this.tabuleiroInit.setTabuleiro(posicao[0]-1, posicao[1], '1');
 		else if(this.tabuleiroInit.getTabuleiro(posicao[0]+1, posicao[1])=='-')
@@ -354,11 +348,11 @@ public class JogoActivity extends Activity {
 			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]+1, '1');
 		else if(this.tabuleiroInit.getTabuleiro(posicao[0], posicao[1]-1)=='-')
 			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]-1, '1');
-					
-		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');
-		
 
-		
+		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');
+
+
+
 
 	}
 

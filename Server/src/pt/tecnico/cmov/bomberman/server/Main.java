@@ -1,5 +1,5 @@
 package pt.tecnico.cmov.bomberman.server;
- 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,149 +12,140 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.tecnico.cmov.bomberman.server.Util;
 import pt.tecnico.cmov.bomberman.JogoActivity;
 import pt.tecnico.cmov.bomberman.Nivel;
-import pt.tecnico.cmov.bomberman.R;
-import pt.tecnico.cmov.bomberman.R.string;
-import pt.tecnico.cmov.bomberman.telajogo.Bomberman;
-import pt.tecnico.cmov.bomberman.telajogo.Robot;
 import pt.tecnico.cmov.bomberman.telajogo.Tabuleiro;
-import pt.tecnico.cmov.bomberman.telajogo.Wall;
-import shared.*;
- 
+import shared.Request;
+
 public class Main {
- 
-    private static ServerSocket serverSocket;
-    private static 	List<Socket> clientSockets = new ArrayList<Socket>();
-    private static ObjectInputStream objectInputStream;
-    private static InputStream inputStream;
-    private static OutputStream outputStream;
-    private static ObjectOutputStream objectOutputStream;
-    private static BufferedReader bufferedReader;
-    private static String message;
-    private static Util util = new Util();
-    private static Tabuleiro tab = null;
-    private static Nivel nivel;
 
-    public static void main(String[] args) {
+	private static ServerSocket serverSocket;
+	private static 	List<Socket> clientSockets = new ArrayList<Socket>();
+	private static ObjectInputStream objectInputStream;
+	private static InputStream inputStream;
+	private static OutputStream outputStream;
+	private static ObjectOutputStream objectOutputStream;
+	private static BufferedReader bufferedReader;
+	private static String message;
+	private static Util util = new Util();
+	private static Tabuleiro tab = null;
+	private static Nivel nivel;
 
-    	
+	public static void main(String[] args) {
+
+
 		new Thread(new Runnable() { 
-			 public void run() { 
-					try {
-						getNewClients();
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
+			public void run() { 
+				try {
+					getNewClients();
+					RunGame();
+
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} 
+		}).start(); 
+
+	}
+
+	static void RunGame() throws IOException, InterruptedException{
+		while(tab == null){} //wait for tab to be generated
+		Thread.sleep(5000);
+		while(true){
+			int coluna;
+			int linha;
+			int num_linhas = tab.getNum_linhas();
+			int num_colunas = tab.getNum_colunas();
+
+
+			for (linha = 0; linha < num_linhas; linha++) {
+				for (coluna = 0; coluna < num_colunas; coluna++) {
+
+					final int[] posicao = new int[2];
+					posicao[0] = linha;
+					posicao[1] = coluna;
+
+					switch (tab.getTabuleiro(linha, coluna)) {
+
+					case 'R':
+						int[] newpos = util.moveRandom(linha, coluna, tab);
+						tab.setTabuleiro(linha, coluna, '-');
+						tab.setTabuleiro(newpos[0], newpos[1], 'R');
 					}
-			 } 
-			 }).start(); 
-		
-		
-		
+				}
+			}
+
+			System.out.println("Sending new tab");
+
+			//print tabuleiro
+			num_linhas = tab.getNum_linhas();
+			num_colunas = tab.getNum_colunas();
+			for (linha = 0; linha < num_linhas; linha++) {
+				for (coluna = 0; coluna < num_colunas; coluna++) {
+					System.out.print(tab.getTabuleiro(linha, coluna));
+				}
+				System.out.print("\n");
+			}
+			JogoActivity.tabuleiroInit=tab;
+			objectOutputStream.writeObject(tab);    				
+
+			Thread.sleep(1000);
+		}			
+	}
+
+
+
+	static void getNewClients() throws ClassNotFoundException{
+
+		Socket clientSocket = null;
+
 		try {
-			RunGame();
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-    }
-    
-    static void RunGame() throws IOException, InterruptedException{
-    	while(tab == null){} //wait for tab to be generated
-    	Thread.sleep(5000);
-    	while(true){
-    			int coluna;
-    			int linha;
-    			int num_linhas = tab.getNum_linhas();
-    			int num_colunas = tab.getNum_colunas();
-  			
+			serverSocket = new ServerSocket(4000);
+		} catch (IOException e) {
+			System.out.println("Could not listen on port: 4000");
+		}  
 
-    			for (linha = 0; linha < num_linhas; linha++) {
-    				for (coluna = 0; coluna < num_colunas; coluna++) {
-    					
-    					final int[] posicao = new int[2];
-    					posicao[0] = linha;
-    					posicao[1] = coluna;
-    					
-    					switch (tab.getTabuleiro(linha, coluna)) {
-
-    					case 'R':
-    						int[] newpos = util.moveRandom(linha, coluna, tab);
-    						tab.setTabuleiro(linha, coluna, '-');
-    						tab.setTabuleiro(newpos[0], newpos[1], 'R');
-    					}
-    				}
-    			}
-
-    				System.out.println("Sending new tab");
-    				
-    				//print tabuleiro
-    				 num_linhas = tab.getNum_linhas();
-    				 num_colunas = tab.getNum_colunas();
-    				for (linha = 0; linha < num_linhas; linha++) {
-    					for (coluna = 0; coluna < num_colunas; coluna++) {
-    						System.out.print(tab.getTabuleiro(linha, coluna));
-    					}
-    					System.out.print("\n");
-    				}
-    				objectOutputStream.writeUnshared(tab);    				
-    				
-    				Thread.sleep(1000);
-    			}			
-    }
-    	
-    
-    
-    static void getNewClients() throws ClassNotFoundException{
-      
-    	Socket clientSocket = null;
-
-        try {
-            serverSocket = new ServerSocket(4000);
-        } catch (IOException e) {
-            System.out.println("Could not listen on port: 4000");
-        }  
-
-        System.out.println("Server started. Listening to the port 4000");
- 
-        try {
+		System.out.println("Server started. Listening to the port 4000");
+		try {
 			clientSocket = serverSocket.accept();            
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
- 
-        while (true) {
-            try {
-                if(!clientSockets.contains(clientSocket)){
-                	clientSockets.add(clientSocket);
-                }
-                
-                inputStream = clientSocket.getInputStream();
-                
-                objectInputStream = new ObjectInputStream(inputStream); 
-                
-                Request rq = (Request) objectInputStream.readObject();
-                
-                System.out.println("request recieved: " + rq.message);
-                
-                if(rq.message.equals("NewGame")){ //envia tabuleiro e nivel
-                	readFile();
-                	outputStream = clientSocket.getOutputStream();  
-    				objectOutputStream = new ObjectOutputStream(outputStream);  
-    				objectOutputStream.writeUnshared(tab);   
-    				objectOutputStream.writeUnshared(nivel);   
+		try {
+			if(!clientSockets.contains(clientSocket)){
+				clientSockets.add(clientSocket);
+			}
 
-                }           
- 
-            } catch (IOException ex) {
-                System.out.println("Problem in recieving request");
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-    
-    public static void readFile() throws IOException
+			inputStream = clientSocket.getInputStream();
+
+			objectInputStream = new ObjectInputStream(inputStream); 
+
+			Request rq = (Request) objectInputStream.readObject();
+
+			System.out.println("request recieved: " + rq.message);
+
+			if(rq.message.equals("NewGame")){ //envia tabuleiro e nivel
+				readFile();
+				outputStream = clientSocket.getOutputStream();  
+				objectOutputStream = new ObjectOutputStream(outputStream);  
+				objectOutputStream.writeUnshared(tab);   
+				objectOutputStream.writeUnshared(nivel);   
+
+			}           
+		} catch (IOException ex) {
+			System.out.println("Problem in recieving request");
+			System.out.println(ex.getMessage());
+		}
+	}
+
+
+	public static void readFile() throws IOException
 	{
 		System.out.println("reading file");
 		InputStream in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
@@ -171,13 +162,13 @@ public class Main {
 				num_linhas++;
 				line = br_aux.readLine();
 			}
-			
+
 			in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
 			br = new BufferedReader(new InputStreamReader(in));
-			
+
 			line = br.readLine();
 			num_linhas--;
-			
+
 			String name = line;
 			line = br.readLine();
 			num_linhas--;
@@ -201,7 +192,7 @@ public class Main {
 			num_linhas--;
 			Integer pontosRival = Integer.valueOf(line);
 			line=br.readLine();
-			
+
 			num_colunas = line.length();
 			tab =new Tabuleiro(num_linhas, num_colunas);
 
@@ -220,7 +211,7 @@ public class Main {
 
 					tab.tabuleiro[linha][coluna]=line.charAt(coluna);
 				}
-//				System.out.println("tabuleiro na linha"+linha+": "+tabuleiroInit[linha][0]);
+				//				System.out.println("tabuleiro na linha"+linha+": "+tabuleiroInit[linha][0]);
 				linha++;
 				line = br.readLine();
 
@@ -228,12 +219,12 @@ public class Main {
 			String filepath = sb.toString();
 			nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival, filepath);
 		} finally {
-			
+
 			br.close();
 			br_aux.close();
 		}
 	}
-    
- 
+
+
 
 }
