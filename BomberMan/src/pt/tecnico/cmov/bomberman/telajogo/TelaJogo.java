@@ -42,6 +42,13 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	Bitmap bit = BitmapFactory.decodeResource(getResources(), R.drawable.wall);
     private final Object lock = new Object();
     
+    private Bitmap wallBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wall);
+    private Bitmap playerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomberman);
+    private Bitmap robotBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.robot);
+    private Bitmap obstaculoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.obstaculo);
+    private Bitmap fogoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.fogo);
+    private Bitmap bombaBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bomba);
+
     int counter = 0;
 
 	int num_robots = 0;
@@ -163,6 +170,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	@SuppressLint("DrawAllocation")
 	@Override
 	protected void onDraw(Canvas cv) {
+		
         synchronized (lock) {
 
         tabuleiro = JogoActivity.tabuleiroInit;
@@ -188,8 +196,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 				
 				switch (tabuleiro.getTabuleiro(linha, coluna)) {
 				case 'W':
-					wall = new Wall(BitmapFactory.decodeResource(
-							getResources(), R.drawable.wall), coluna
+					wall = new Wall(wallBitmap, coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					wall.draw(cv);
@@ -197,8 +204,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 				case '1':
 					// case '2':
 					// case '3':
-					bomber = new Bomberman(BitmapFactory.decodeResource(
-							getResources(), R.drawable.bomberman), coluna
+					bomber = new Bomberman(playerBitmap, coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					bomber.draw(cv);
@@ -206,8 +212,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 				case 'R':
 					// robots - andar aleatoriamente
 					Robot robot;
-					robot = new Robot(BitmapFactory.decodeResource(
-							getResources(), R.drawable.robot), coluna
+					robot = new Robot(robotBitmap, coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					robots.add(robot);
@@ -216,8 +221,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 
 					break;
 				case 'O':
-					obstaculo = new Obstaculo(BitmapFactory.decodeResource(
-							getResources(), R.drawable.obstaculo), coluna
+					obstaculo = new Obstaculo(obstaculoBitmap, coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					obstaculo.draw(cv);
@@ -225,8 +229,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 				case 'B':
 					
 
-					bomba = new Bomba(BitmapFactory.decodeResource(
-							getResources(), R.drawable.bomba), coluna
+					bomba = new Bomba(bombaBitmap, coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					bomba.draw(cv);
@@ -244,8 +247,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 					break;
 
 				case 'E':
-					bomba = new Bomba(BitmapFactory.decodeResource(
-							getResources(), R.drawable.fogo), coluna
+					bomba = new Bomba(fogoBitmap, coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
 					bomba.draw(cv);

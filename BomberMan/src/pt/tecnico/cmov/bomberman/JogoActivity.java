@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import pt.tecnico.cmov.bomberman.telajogo.Tabuleiro;
 import pt.tecnico.cmov.bomberman.telajogo.TelaJogo;
@@ -34,6 +35,7 @@ public class JogoActivity extends Activity {
 	public Boolean isPaused=false;
 	public static Nivel nivel =null;
 	public static int score;
+	public static char myPlayerId;
 
 	// ta a dar erro, tentar encher matriz
 	public static Tabuleiro tabuleiroInit = null;
@@ -54,6 +56,7 @@ public class JogoActivity extends Activity {
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
 	private InputStream inputStream;
+	private boolean online = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class JogoActivity extends Activity {
 		setContentView(R.layout.activity_jogo);
 		Intent intent = getIntent();
 		String nome = intent.getStringExtra(MainActivity.NOME);
-		boolean online = intent.getExtras().getBoolean("online");
+		online = intent.getExtras().getBoolean("online");
 		TextView tx = (TextView) findViewById(R.id.playerName);
 		tx.setText(nome);
 		score = 0;
@@ -106,19 +109,18 @@ public class JogoActivity extends Activity {
 		try {
 			System.out.println("sending new request");
 
-			Request r = new Request();
-			r.playerId = '1';
-			r.message = "NewGame";
+			Request r = new Request('0', "NewGame" );
 
 			outputStream = client.getOutputStream();  
 			objectOutputStream = new ObjectOutputStream(outputStream);  
 			objectOutputStream.writeObject(r);  
 
 			inputStream = client.getInputStream();		                
-			objectInputStream = new ObjectInputStream(inputStream); 	                
+			objectInputStream = new ObjectInputStream(inputStream); 
+			myPlayerId = objectInputStream.readChar();
 			tabuleiroInit = (Tabuleiro) objectInputStream.readObject();
 			nivel = (Nivel) objectInputStream.readObject();
-			System.out.println("I got something from the server!");
+			System.out.println("My player Id is: " + myPlayerId);
 			RecieveUpdates();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -130,14 +132,9 @@ public class JogoActivity extends Activity {
 
 	public void RecieveUpdates() throws OptionalDataException, ClassNotFoundException, IOException{
 		Tabuleiro newTab;
-		while ((newTab = (Tabuleiro)objectInputStream.readObject()) != null) {
-			JogoActivity.tabuleiroInit = newTab;		
+		while ((newTab = (Tabuleiro)objectInputStream.readObject()) != null) {	
+			JogoActivity.tabuleiroInit = newTab;
 		}
-
-		//print tabuleiro
-
-
-
 	}
 
 	public Nivel readFile() throws IOException
@@ -216,6 +213,7 @@ public class JogoActivity extends Activity {
 			}
 			String filepath = sb.toString();
 			nivel = new Nivel(name, duracao, timeoutExplosao, duracaoExplosao, rangeExplosao, velocidadeRobot, pontosRobot, pontosRival, filepath);
+			myPlayerId = '1';
 			return nivel;
 		} finally {
 
@@ -294,30 +292,50 @@ public class JogoActivity extends Activity {
 	//	Robot vai mexer aleatoriamente
 	//	Fun�ao de chama movimentos aleatorios
 
-	public void moveUp(View v){
-		tj = (TelaJogo) findViewById(R.id.telajogo);
-		System.out.println("Altura da imagem: "+tj.bomber.getBitmap().getHeight());
-		//		tj.bomber.moveUp(tj.bomber.getY(),tj.bomber.getBitmap().getHeight());
-		tj.bomber.moveUp();
-		//		tj.robot.moveUp(tj.robot.getY(), tj.robot.getBitmap().getHeight());
+	public void moveUp(View v) throws IOException {
+		if (online) {
+			Request newReq = new Request(myPlayerId, "MoveUp");
+			objectOutputStream.writeObject(newReq);
+			objectOutputStream.reset();
+		} else {
+			tj = (TelaJogo) findViewById(R.id.telajogo);
+			tj.bomber.moveUp();
+		}
 	}
 
-	public void moveDown(View v){
-		tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.bomber.moveDown();
-		//		tj.robot.moveDown(tj.robot.getY(),tj.getHeight(), tj.robot.getBitmap().getHeight());
+	public void moveDown(View v) throws IOException {
+		if (online) {
+			Request newReq = new Request(myPlayerId, "MoveDown");
+			objectOutputStream.writeObject(newReq);
+			objectOutputStream.reset();
+		} else {
+			tj = (TelaJogo) findViewById(R.id.telajogo);
+			tj.bomber.moveDown();
+		}
 	}
 
-	public void moveLeft(View v){
-		tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.bomber.moveLeft();
-		//		tj.robot.moveLeft(tj.robot.getX(), tj.robot.getBitmap().getWidth());
+	public void moveLeft(View v) throws IOException {
+		if (online) {
+			Request newReq = new Request(myPlayerId, "MoveLeft");
+			objectOutputStream.writeObject(newReq);
+			objectOutputStream.reset();
+		} else {
+
+			tj = (TelaJogo) findViewById(R.id.telajogo);
+			tj.bomber.moveLeft();
+		}
 	}
 
-	public void moveRight(View v){
-		tj = (TelaJogo) findViewById(R.id.telajogo);
-		tj.bomber.moveRight();
-		//		tj.robot.moveRight(tj.robot.getX(),tj.getWidth(), tj.robot.getBitmap().getWidth());
+	public void moveRight(View v) throws IOException {
+		if (online) {
+			Request newReq = new Request(myPlayerId, "MoveRight");
+			objectOutputStream.writeObject(newReq);
+			objectOutputStream.reset();
+		} else {
+
+			tj = (TelaJogo) findViewById(R.id.telajogo);
+			tj.bomber.moveRight();
+		}
 	}
 
 	public void quit(View v){
@@ -326,7 +344,13 @@ public class JogoActivity extends Activity {
 		startActivity(intent);
 	}
 
-	public void colocaBomba(View v){
+	public void colocaBomba(View v) throws IOException{
+		if(online){
+			Request newReq = new Request(myPlayerId, "Bomb");
+			objectOutputStream.writeObject(newReq);
+			objectOutputStream.reset();
+		}else{
+		
 		int[] posicao=this.tabuleiroInit.getPosicao('1');
 
 		if(this.tabuleiroInit.getTabuleiro(posicao[0]-1, posicao[1])=='-')
@@ -339,7 +363,7 @@ public class JogoActivity extends Activity {
 			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]-1, '1');
 
 		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');
-
+		}
 
 
 
