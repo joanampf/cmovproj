@@ -7,7 +7,9 @@ import pt.tecnico.cmov.bomberman.MainActivity;
 import pt.tecnico.cmov.bomberman.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,11 +17,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.EditText;
-import android.widget.Toast;
 
 public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -275,18 +274,26 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
         	try {
 				running = false;
 				currentActv.runOnUiThread(new Runnable() {
-				    public void run() {
-				    	Toast toast = Toast.makeText(cont, "  Game Over\nFinal Score: " + JogoActivity.score, 20000);
-				    	toast.setGravity(Gravity.CENTER, 0, 0);
-				    	toast.show();
+				    @SuppressWarnings("deprecation")
+					public void run() {
+				    	AlertDialog alertDialog = new AlertDialog.Builder(currentActv).create();
+				    	alertDialog.setTitle("GAME OVER");
+				    	alertDialog.setCancelable(false);
+				    	alertDialog.setMessage("You've just lost the game!\nYour final score is: "+ JogoActivity.score);
+				    	alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+				    	public void onClick(DialogInterface dialog, int which) {
+				    		Intent intent = new Intent(cont, MainActivity.class);
+							cont.startActivity(intent);
+							System.out.println("finishing current activity");
+							currentActv.finish();
+							thread.running = false;
+				    	}
+				    	});
+				    	alertDialog.show();
 				    }
 				});
-				Thread.sleep(2000);
-				Intent intent = new Intent(cont, MainActivity.class);
-				cont.startActivity(intent);
-				System.out.println("finishing current activity");
-				currentActv.finish();
-				thread.running = false;
+				Thread.sleep(2000000000);
+				
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();

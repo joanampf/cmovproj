@@ -52,10 +52,6 @@ public class Bomberman {
 		if(tab.getTabuleiro(xseguinte, yseguinte)=='-'){
 			return true;
 		}
-		else if (tab.getTabuleiro(xseguinte, yseguinte)=='1'){
-			//lançar pop de gameover
-			return true;
-		}
 		else
 			return false;
 
@@ -70,6 +66,9 @@ public class Bomberman {
 			tab.setTabuleiro(posicao[0]-1, posicao[1], '1');
 			tab.setTabuleiro(posicao[0], posicao[1], '-');
 		}
+		else if(tab.getTabuleiro(posicao[0]-1, posicao[1])=='R'){
+			tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
 	}
 
 	public void moveDown() {
@@ -78,6 +77,9 @@ public class Bomberman {
 		posicao=tab.getPosicao('1');
 		if (this.colisao(posicao[0]+1, posicao[1])){
 			tab.setTabuleiro(posicao[0]+1, posicao[1], '1');
+			tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
+		else if(tab.getTabuleiro(posicao[0]+1, posicao[1])=='R'){
 			tab.setTabuleiro(posicao[0], posicao[1], '-');
 		}
 
@@ -92,6 +94,9 @@ public class Bomberman {
 			tab.setTabuleiro(posicao[0], posicao[1]+1, '1');
 			tab.setTabuleiro(posicao[0], posicao[1], '-');
 		}
+		else if(tab.getTabuleiro(posicao[0], posicao[1]+1)=='R'){
+			tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
 	}
 	public void moveLeft() {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
@@ -99,6 +104,9 @@ public class Bomberman {
 		posicao=tab.getPosicao('1');
 		if (this.colisao(posicao[0], posicao[1]-1)){
 			tab.setTabuleiro(posicao[0], posicao[1]-1, '1');
+			tab.setTabuleiro(posicao[0], posicao[1], '-');
+		}
+		else if(tab.getTabuleiro(posicao[0], posicao[1]-1)=='R'){
 			tab.setTabuleiro(posicao[0], posicao[1], '-');
 		}
 	}

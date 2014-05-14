@@ -9,13 +9,14 @@ import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import pt.tecnico.cmov.bomberman.telajogo.Tabuleiro;
 import pt.tecnico.cmov.bomberman.telajogo.TelaJogo;
 import shared.Request;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -49,7 +50,6 @@ public class JogoActivity extends Activity {
 	public Button bomb;
 	public Button pause;
 	public TelaJogo tj;
-
 
 	private Socket client = null;
 	private OutputStream outputStream;
@@ -339,9 +339,33 @@ public class JogoActivity extends Activity {
 	}
 
 	public void quit(View v){
-		//APOS UM POPUP A PERGUNTAR SE TEM A CERTEZA
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+		// set title
+		alertDialogBuilder.setTitle("Quit Game");
+
+		// set dialog message
+		alertDialogBuilder
+		.setMessage("Are you sure you want to quit?")
+		.setCancelable(false)
+		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				Intent i = new Intent(JogoActivity.this, MainActivity.class);
+				startActivity(i);
+							
+			}
+		})
+		.setNegativeButton("No",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
 	}
 
 	public void colocaBomba(View v) throws IOException{
@@ -350,19 +374,19 @@ public class JogoActivity extends Activity {
 			objectOutputStream.writeObject(newReq);
 			objectOutputStream.reset();
 		}else{
-		
-		int[] posicao=this.tabuleiroInit.getPosicao('1');
 
-		if(this.tabuleiroInit.getTabuleiro(posicao[0]-1, posicao[1])=='-')
-			this.tabuleiroInit.setTabuleiro(posicao[0]-1, posicao[1], '1');
-		else if(this.tabuleiroInit.getTabuleiro(posicao[0]+1, posicao[1])=='-')
-			this.tabuleiroInit.setTabuleiro(posicao[0]+1, posicao[1], '1');
-		else if(this.tabuleiroInit.getTabuleiro(posicao[0], posicao[1]+1)=='-')
-			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]+1, '1');
-		else if(this.tabuleiroInit.getTabuleiro(posicao[0], posicao[1]-1)=='-')
-			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]-1, '1');
+			int[] posicao=this.tabuleiroInit.getPosicao('1');
 
-		this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');
+			if(this.tabuleiroInit.getTabuleiro(posicao[0]-1, posicao[1])=='-')
+				this.tabuleiroInit.setTabuleiro(posicao[0]-1, posicao[1], '1');
+			else if(this.tabuleiroInit.getTabuleiro(posicao[0]+1, posicao[1])=='-')
+				this.tabuleiroInit.setTabuleiro(posicao[0]+1, posicao[1], '1');
+			else if(this.tabuleiroInit.getTabuleiro(posicao[0], posicao[1]+1)=='-')
+				this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]+1, '1');
+			else if(this.tabuleiroInit.getTabuleiro(posicao[0], posicao[1]-1)=='-')
+				this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1]-1, '1');
+
+			this.tabuleiroInit.setTabuleiro(posicao[0], posicao[1], 'B');
 		}
 
 

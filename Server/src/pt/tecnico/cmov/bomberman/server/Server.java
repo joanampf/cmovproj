@@ -39,15 +39,10 @@ public class Server {
 
 	public static void main(String[] args) {
 		
-		try {
-			readFile();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
 		new Thread(new Runnable() {
 			public void run() {
 				try {
+
 					getNewClients();
 					
 				} catch (ClassNotFoundException | IOException e) {
@@ -141,7 +136,7 @@ public class Server {
 				if (!clientSockets.contains(clientSocket)) {
 					clientSockets.add(clientSocket);
 				}
-
+				
 				inputStream = clientSocket.getInputStream();
 
 				objectInputStream = new ObjectInputStream(inputStream);
@@ -154,7 +149,6 @@ public class Server {
 					outputStream = clientSocket.getOutputStream();
 					objectOutputStream = new ObjectOutputStream(outputStream);
 					objectOutputStream.writeChar(nextPlayerId++);
-					System.out.println(nextPlayerId);
 					objectOutputStream.writeUnshared(tab);
 					objectOutputStream.writeUnshared(nivel);
 
