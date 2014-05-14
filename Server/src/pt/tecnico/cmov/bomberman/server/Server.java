@@ -49,15 +49,15 @@ public class Server {
 			public void run() {
 				try {
 					getNewClients();
+					
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}).start();
-		
-		while (nextPlayerId == '1') {
+		while (nextPlayerId =='1') {
+			System.out.print("");
 		} // wait for a player to join
-
 		new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -117,11 +117,9 @@ public class Server {
 	static void SendBoard() throws IOException, InterruptedException {
 		Thread.sleep(2000);
 		while (true) {
-		if(mustResendTab){
 			mustResendTab = false;
 			objectOutputStream.writeUnshared(tab);
 			objectOutputStream.reset();
-		}
 		}
 	}
 
@@ -156,6 +154,7 @@ public class Server {
 					outputStream = clientSocket.getOutputStream();
 					objectOutputStream = new ObjectOutputStream(outputStream);
 					objectOutputStream.writeChar(nextPlayerId++);
+					System.out.println(nextPlayerId);
 					objectOutputStream.writeUnshared(tab);
 					objectOutputStream.writeUnshared(nivel);
 
