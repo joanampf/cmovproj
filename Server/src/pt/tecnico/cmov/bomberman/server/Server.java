@@ -39,6 +39,14 @@ public class Server {
 
 	public static void main(String[] args) {
 		
+			try {
+				readFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+		
 		new Thread(new Runnable() {
 			public void run() {
 				try {
