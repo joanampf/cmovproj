@@ -17,7 +17,6 @@ public class Util {
 		}
 		else
 			return false;
-
 	}
 	
 	public int[] moveRandom(int x, int y, Tabuleiro tab){
