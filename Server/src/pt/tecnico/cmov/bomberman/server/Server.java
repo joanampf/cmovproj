@@ -35,24 +35,24 @@ public class Server {
 	private static char nextPlayerId = '1';
 	private static Socket clientSocket = null;
 	private static boolean mustResendTab = false;
-	
+
 
 	public static void main(String[] args) {
-		
-			try {
-				readFile();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		
-		
+
+		try {
+			readFile();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+
 		new Thread(new Runnable() {
 			public void run() {
 				try {
 
 					getNewClients();
-					
+
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 				}
@@ -70,7 +70,7 @@ public class Server {
 				}
 			}
 		}).start();
-		
+
 
 		new Thread(new Runnable() {
 			public void run() {
@@ -115,14 +115,16 @@ public class Server {
 			mustResendTab = true;
 			Thread.sleep((int)(nivel.getRobotSpeed() * 1000) );
 		}
-		
+
 	}
 	static void SendBoard() throws IOException, InterruptedException {
 		Thread.sleep(2000);
 		while (true) {
-			mustResendTab = false;
-			objectOutputStream.writeUnshared(tab);
-			objectOutputStream.reset();
+			if(mustResendTab){
+				mustResendTab = false;
+				objectOutputStream.writeUnshared(tab);
+				objectOutputStream.reset();
+			}
 		}
 	}
 
@@ -144,7 +146,7 @@ public class Server {
 				if (!clientSockets.contains(clientSocket)) {
 					clientSockets.add(clientSocket);
 				}
-				
+
 				inputStream = clientSocket.getInputStream();
 
 				objectInputStream = new ObjectInputStream(inputStream);
@@ -162,11 +164,11 @@ public class Server {
 
 					new Thread(new Runnable() {
 						public void run() {
-								try {
-									RecieveRequests();
-								} catch (ClassNotFoundException | IOException e) {
-									e.printStackTrace();
-								}
+							try {
+								RecieveRequests();
+							} catch (ClassNotFoundException | IOException e) {
+								e.printStackTrace();
+							}
 						}
 					}).start();
 				}
@@ -177,7 +179,7 @@ public class Server {
 		}
 	}
 
-	
+
 	static void RecieveRequests() throws ClassNotFoundException, IOException{
 		Request newRequest;
 		while ((newRequest = (Request)objectInputStream.readObject()) != null) {
@@ -186,39 +188,39 @@ public class Server {
 				util.MoveUp(newRequest.playerId, tab);
 
 			}
-			
+
 			if(newRequest.message.equals("MoveDown")){
 				util.MoveDown(newRequest.playerId, tab);
 			}
-			
+
 			if(newRequest.message.equals("MoveLeft")){
 				util.MoveLeft(newRequest.playerId, tab);
 			}
-			
+
 			if(newRequest.message.equals("MoveRight")){
 				util.MoveRight(newRequest.playerId, tab);
 			}			
-		if(newRequest.message.equals("Bomb")){
-			synchronized(util.lock){
-			util.currentlyActivePlayer = newRequest.playerId;
-			}
-			new Thread(new Runnable() {
-				public void run() {
-					try {
-						util.PlaceBomb(tab, nivel);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			if(newRequest.message.equals("Bomb")){
+				synchronized(util.lock){
+					util.currentlyActivePlayer = newRequest.playerId;
 				}
-			}).start();
+				new Thread(new Runnable() {
+					public void run() {
+						try {
+							util.PlaceBomb(tab, nivel);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}).start();
+			}
 		}
-		}
-		
+
 		mustResendTab = true;
 	}
-	
-	
+
+
 	public static void readFile() throws IOException {
 		System.out.println("reading file");
 		InputStream in = JogoActivity.class
