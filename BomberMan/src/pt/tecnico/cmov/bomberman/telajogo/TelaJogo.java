@@ -201,8 +201,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 					wall.draw(cv);
 					break;
 				case '1':
-					// case '2':
-					// case '3':
+				case '2':
 					bomber = new Bomberman(playerBitmap, coluna
 							* bit.getWidth() + bit.getWidth() / 2, linha
 							* bit.getHeight() + bit.getHeight() / 2);
