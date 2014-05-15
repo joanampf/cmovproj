@@ -167,25 +167,25 @@ public class JogoActivity extends Activity {
 			String name = line;
 			line = br.readLine();
 			num_linhas--;
-			Integer duracao = Integer.valueOf(line);
+			float duracao = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer timeoutExplosao = Integer.valueOf(line);
+			float timeoutExplosao = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer duracaoExplosao = Integer.valueOf(line);
+			float duracaoExplosao = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer rangeExplosao = Integer.valueOf(line);
+			float rangeExplosao = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer velocidadeRobot = Integer.valueOf(line);
+			float velocidadeRobot = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer pontosRobot = Integer.valueOf(line);
+			float pontosRobot = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer pontosRival = Integer.valueOf(line);
+			float pontosRival = Float.parseFloat(line);
 			line=br.readLine();
 
 			num_colunas = line.length();
@@ -233,7 +233,7 @@ public class JogoActivity extends Activity {
 	}
 
 	// inicializar temporizador
-	public void initTime(Integer tempo){
+	public void initTime(float tempo){
 
 
 		timeLeft = (TextView) findViewById(R.id.timeLeft);
@@ -290,7 +290,7 @@ public class JogoActivity extends Activity {
 	}
 
 	//	Robot vai mexer aleatoriamente
-	//	Fun�ao de chama movimentos aleatorios
+	//	Fun���ao de chama movimentos aleatorios
 
 	public void moveUp(View v) throws IOException {
 		if (online) {

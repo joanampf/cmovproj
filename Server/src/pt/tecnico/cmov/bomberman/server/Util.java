@@ -102,11 +102,11 @@ public class Util {
 			tab.setTabuleiro(posicao[0], posicao[1]-1, currentlyActivePlayer);
 
 		}	
-			int range= nivel.getExplosionRange();
+			float range= nivel.getExplosionRange();
 			int i;
 			tab.setTabuleiro(posicao[0], posicao[1], 'B');
 
-			Thread.sleep(1000 * nivel.getExplosionTimeout());
+			Thread.sleep((int)(1000 * nivel.getExplosionTimeout()));
 			
 			tab.setTabuleiro(posicao[0], posicao[1], 'E');
 
@@ -118,7 +118,7 @@ public class Util {
 			}
 			
 
-			Thread.sleep(1000 * nivel.getExplosionDuration());
+			Thread.sleep((int)(1000 * nivel.getExplosionDuration()));
 			tab.setTabuleiro(posicao[0], posicao[1], '-');
 
 			for (i=1; i<range; i++){

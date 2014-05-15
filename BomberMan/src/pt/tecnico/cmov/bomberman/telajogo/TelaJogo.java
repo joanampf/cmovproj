@@ -112,7 +112,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void GameLogic(){
-		int velocidade = JogoActivity.nivel.getRobotSpeed();
+		float velocidade = JogoActivity.nivel.getRobotSpeed();
 		while(running){
 			try {
 				if (JogoActivity.tempoActivo) {
@@ -121,7 +121,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 					for (int i = 0; i < num_robots; i++)
 						tabuleiro.moveRobot(robots.get(i), bit);
 			        }
-					Thread.sleep(1000 * velocidade);
+					Thread.sleep((int)(1000 * velocidade));
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -267,7 +267,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 		controlo = true;
 		
 		
-		// ve se o player está morto
+		// ve se o player estï¿½ morto
         int []playerPos = tabuleiro.getPosicao('1');
         
         if (playerPos == null){

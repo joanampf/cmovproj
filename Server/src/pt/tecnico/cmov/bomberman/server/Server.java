@@ -113,7 +113,7 @@ public class Server {
 				tab.setTabuleiro(newpos[0], newpos[1], 'R');
 			}
 			mustResendTab = true;
-			Thread.sleep(nivel.getRobotSpeed() * 1000 );
+			Thread.sleep((int)(nivel.getRobotSpeed() * 1000) );
 		}
 		
 	}
@@ -247,26 +247,26 @@ public class Server {
 			String name = line;
 			line = br.readLine();
 			num_linhas--;
-			Integer duracao = Integer.valueOf(line);
+			float duracao = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer timeoutExplosao = Integer.valueOf(line);
+			float timeoutExplosao = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer duracaoExplosao = Integer.valueOf(line);
+			float duracaoExplosao = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer rangeExplosao = Integer.valueOf(line);
+			float rangeExplosao = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer velocidadeRobot = Integer.valueOf(line);
+			float velocidadeRobot = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer pontosRobot = Integer.valueOf(line);
+			float pontosRobot = Float.parseFloat(line);
 			line = br.readLine();
 			num_linhas--;
-			Integer pontosRival = Integer.valueOf(line);
-			line = br.readLine();
+			float pontosRival = Float.parseFloat(line);
+			line=br.readLine();
 
 			num_colunas = line.length();
 			tab = new Tabuleiro(num_linhas, num_colunas);

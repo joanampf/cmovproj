@@ -71,7 +71,7 @@ public class Tabuleiro implements Serializable  {
 		//		while (JogoActivity.tempoActivo){
 		int aleatorio=(int) (Math.random() * 4);
 		
-		int velocidade = JogoActivity.nivel.getRobotSpeed();
+		float velocidade = JogoActivity.nivel.getRobotSpeed();
 		switch (aleatorio){
 
 		case 0: r.moveUp(bit);

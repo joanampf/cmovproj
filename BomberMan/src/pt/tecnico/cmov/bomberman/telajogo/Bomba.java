@@ -118,14 +118,14 @@ public class Bomba {
 	//colocar pontos
 	public void explode(int [] posicao) throws InterruptedException{
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
-		int range= JogoActivity.nivel.getExplosionRange();
-		int explosion_timeout= JogoActivity.nivel.getExplosionTimeout();
+		float range= JogoActivity.nivel.getExplosionRange();
+		float explosion_timeout= JogoActivity.nivel.getExplosionTimeout();
 		int i;
 		
 		System.out.println("range: "+range);
 		System.out.println("x y: "+ posicao[0] + " "+ posicao[1]);
 		
-		Thread.sleep(1000 * explosion_timeout);
+		Thread.sleep((int)(1000 * explosion_timeout));
 		
 		tab.setTabuleiro(posicao[0], posicao[1], 'E');
 
@@ -148,9 +148,9 @@ public class Bomba {
 */
 		}
 		
-		int explosion_duration = JogoActivity.nivel.getExplosionDuration();
+		float explosion_duration = JogoActivity.nivel.getExplosionDuration();
 
-		Thread.sleep(1000 * explosion_duration);
+		Thread.sleep((int)(1000 * explosion_duration));
 		tab.setTabuleiro(posicao[0], posicao[1], '-');
 
 		for (i=1; i<range; i++){

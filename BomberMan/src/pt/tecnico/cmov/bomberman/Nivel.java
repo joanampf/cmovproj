@@ -13,18 +13,18 @@ import android.widget.TextView;
 public class Nivel implements Serializable {
 
 	private String levelName;
-	private Integer gameDuration;
-	private Integer explosionTimeout;
-	private Integer explosionDuration;
-	private Integer explosionRange;
-	private Integer robotSpeed;
-	private Integer pointsRobot;
-	private Integer pointsOpponent;
+	private float gameDuration;
+	private float explosionTimeout;
+	private float explosionDuration;
+	private float explosionRange;
+	private float robotSpeed;
+	private float pointsRobot;
+	private float pointsOpponent;
 	private String filepath;
 	
 	// novo
 	// falta ver grid layout
-	public Nivel (String LN, Integer GD, Integer ET, Integer ED, Integer ER, Integer RS, Integer PR, Integer PO, String filepath){
+	public Nivel (String LN, float GD, float ET, float ED, float ER, float RS, float PR, float PO, String filepath){
 		this.levelName=LN;
 		this.gameDuration=GD;
 		this.explosionTimeout=ET;
@@ -52,52 +52,52 @@ public class Nivel implements Serializable {
 		return levelName;
 	}
 	//GameDuration
-	public void setGameDuration(Integer duracaoJ){
+	public void setGameDuration(float duracaoJ){
 		this.gameDuration = duracaoJ;
 	}
-	public Integer getGameDuration(){
+	public float getGameDuration(){
 		return gameDuration;
 	}
 	//ExplocionTimeout
-	public void setExplosionTimeout(Integer timeoutE){
+	public void setExplosionTimeout(float timeoutE){
 		this.explosionTimeout=timeoutE;
 	}
-	public Integer getExplosionTimeout(){
+	public float getExplosionTimeout(){
 		return explosionTimeout;
 	}
 	//ExplosionDuration
-	public void setExplosionDuration(Integer durationE){
+	public void setExplosionDuration(float durationE){
 		this.explosionDuration=durationE;
 	}
-	public Integer getExplosionDuration(){
+	public float getExplosionDuration(){
 		return explosionDuration;
 	}
 	//ExplosionRange
-	public void setExplosionRange(Integer rangeE){
+	public void setExplosionRange(float rangeE){
 		this.explosionRange=rangeE;
 	}
-	public Integer getExplosionRange(){
+	public float getExplosionRange(){
 		return explosionRange;
 	}
 	//RobotSpeed
-	public void setRobotSpeed(Integer robotSpeed){
+	public void setRobotSpeed(float robotSpeed){
 		this.robotSpeed=robotSpeed;
 	}
-	public Integer getRobotSpeed(){
+	public float getRobotSpeed(){
 		return robotSpeed;
 	}
 	//PointsRobot
-	public void setPointsRobot(Integer pointsR){
+	public void setPointsRobot(float pointsR){
 		this.pointsRobot=pointsR;
 	}
-	public Integer getPointsRobot(){
+	public float getPointsRobot(){
 		return pointsRobot;
 	}
 	//PointsOpponent
-	public void setPointsOpponent(Integer pointsO){
+	public void setPointsOpponent(float pointsO){
 		this.pointsOpponent=pointsO;
 	}
-	public Integer getPointsOpponents(){
+	public float getPointsOpponents(){
 		return pointsOpponent;
 	}
 	//filepath
