@@ -22,17 +22,15 @@ import shared.Request;
 public class Server {
 
 	private static ServerSocket serverSocket;
-	private static List<Socket> clientSockets = new ArrayList<Socket>();
-	private static ObjectInputStream objectInputStream;
-	private static InputStream inputStream;
-	private static OutputStream outputStream;
-	private static ObjectOutputStream objectOutputStream;
-	private static BufferedReader bufferedReader;
-	private static String message;
+	private static ObjectInputStream[] objectInputStream = new ObjectInputStream[4];
+	private static InputStream[] inputStream = new InputStream[4];;
+	private static OutputStream[] outputStream = new OutputStream[4];
+	private static ObjectOutputStream[] objectOutputStream = new ObjectOutputStream[4];
 	private static Util util = new Util();
 	private static Tabuleiro tab = null;
 	private static Nivel nivel;
 	private static char nextPlayerId = '1';
+	private static int numberOfPlayers = 0;
 	private static Socket clientSocket = null;
 	private static boolean mustResendTab = false;
 
@@ -58,7 +56,7 @@ public class Server {
 				}
 			}
 		}).start();
-		while (nextPlayerId =='1') {
+		while (numberOfPlayers == 0) {
 			System.out.print("");
 		} // wait for a player to join
 		new Thread(new Runnable() {
@@ -120,10 +118,13 @@ public class Server {
 	static void SendBoard() throws IOException, InterruptedException {
 		Thread.sleep(2000);
 		while (true) {
+			Thread.sleep(200);
 			if(mustResendTab){
 				mustResendTab = false;
-				objectOutputStream.writeUnshared(tab);
-				objectOutputStream.reset();
+				for(int i = 0; i < numberOfPlayers; i++){
+					objectOutputStream[i].writeUnshared(tab);
+					objectOutputStream[i].reset();
+				}
 			}
 		}
 	}
@@ -143,24 +144,20 @@ public class Server {
 				e1.printStackTrace();
 			}
 			try {
-				if (!clientSockets.contains(clientSocket)) {
-					clientSockets.add(clientSocket);
-				}
+				inputStream[numberOfPlayers] = clientSocket.getInputStream();
 
-				inputStream = clientSocket.getInputStream();
+				objectInputStream[numberOfPlayers] = new ObjectInputStream(inputStream[numberOfPlayers]);
 
-				objectInputStream = new ObjectInputStream(inputStream);
-
-				Request rq = (Request) objectInputStream.readObject();
+				Request rq = (Request) objectInputStream[numberOfPlayers].readObject();
 
 				System.out.println("request recieved: " + rq.message);
 
 				if (rq.message.equals("NewGame")) { // envia tabuleiro e nivel
-					outputStream = clientSocket.getOutputStream();
-					objectOutputStream = new ObjectOutputStream(outputStream);
-					objectOutputStream.writeChar(nextPlayerId++);
-					objectOutputStream.writeUnshared(tab);
-					objectOutputStream.writeUnshared(nivel);
+					outputStream[numberOfPlayers] = clientSocket.getOutputStream();
+					objectOutputStream[numberOfPlayers] = new ObjectOutputStream(outputStream[numberOfPlayers]);
+					objectOutputStream[numberOfPlayers].writeChar(nextPlayerId++);
+					objectOutputStream[numberOfPlayers].writeUnshared(tab);
+					objectOutputStream[numberOfPlayers].writeUnshared(nivel);
 
 					new Thread(new Runnable() {
 						public void run() {
@@ -182,7 +179,8 @@ public class Server {
 
 	static void RecieveRequests() throws ClassNotFoundException, IOException{
 		Request newRequest;
-		while ((newRequest = (Request)objectInputStream.readObject()) != null) {
+		int thisPlayerIndex = numberOfPlayers++;
+		while ((newRequest = (Request)objectInputStream[thisPlayerIndex].readObject()) != null) {
 
 			if(newRequest.message.equals("MoveUp")){
 				util.MoveUp(newRequest.playerId, tab);
