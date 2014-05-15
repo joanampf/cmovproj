@@ -56,7 +56,7 @@ public class Server {
 				}
 			}
 		}).start();
-		while (numberOfPlayers == 0) {
+		while (numberOfPlayers != 2) {
 			System.out.print("");
 		} // wait for a player to join
 		new Thread(new Runnable() {

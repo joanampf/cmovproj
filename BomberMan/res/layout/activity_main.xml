@@ -40,7 +40,7 @@
         android:layout_below="@+id/imageView1"
         android:layout_marginTop="32dp"
         android:onClick="JogarOffline"
-        android:text="Jogar Offline" />
+        android:text="Single Player" />
         
             <Button
         android:id="@+id/botaoJogarOnline"
@@ -50,6 +50,6 @@
         android:layout_below="@+id/botaoJogarOffline"
         android:layout_marginTop="20dp"
         android:onClick="JogarOnline"
-        android:text="Jogar Online" />
+        android:text="Multiplayer" />
 
 </RelativeLayout>

@@ -37,6 +37,7 @@ public class JogoActivity extends Activity {
 	public Boolean isPaused=false;
 	public static Nivel nivel =null;
 	public static int score;
+	public static int totalPlayers=0;
 	public static char myPlayerId;
 
 	// ta a dar erro, tentar encher matriz
@@ -75,6 +76,8 @@ public class JogoActivity extends Activity {
 		movedown = (ImageButton) findViewById(R.id.botaobaixo);
 		moveright = (ImageButton) findViewById(R.id.botaodir);
 		bomb = (Button)findViewById(R.id.bomb);
+		if(online)
+			pause.setEnabled(false);
 		tj = (TelaJogo) findViewById(R.id.telajogo);
 		tj.currentActv = this;
 		tj.onlineMode = online;
@@ -122,6 +125,8 @@ public class JogoActivity extends Activity {
 			tabuleiroInit = (Tabuleiro) objectInputStream.readObject();
 			nivel = (Nivel) objectInputStream.readObject();
 			System.out.println("My player Id is: " + myPlayerId);
+			totalPlayers++;
+			
 			RecieveUpdates();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -295,7 +300,7 @@ public class JogoActivity extends Activity {
 	}
 
 	//	Robot vai mexer aleatoriamente
-	//	Fun���ao de chama movimentos aleatorios
+	//	Fun���������ao de chama movimentos aleatorios
 
 	public void moveUp(View v) throws IOException {
 		if (online) {

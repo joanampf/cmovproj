@@ -1,0 +1,9 @@
+single player:
+ta a desenhar os jogadores todos, só pode desenhar um
+
+
+multiplayer:
+Já está sem pausa!
+
+sincronização para começar jogo (cada jogador inicia mal entra, tempos diferentes)
+quando um jogador desiste (faz quit), ele continua no tabuleiro, e preciso elimina lo
