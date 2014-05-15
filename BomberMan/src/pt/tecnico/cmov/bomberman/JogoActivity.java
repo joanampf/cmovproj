@@ -31,6 +31,7 @@ public class JogoActivity extends Activity {
 	public static boolean tempoActivo=true;
 	public CountDownTimer clock;
 	private TextView timeLeft;
+	private TextView numberPlayers;
 	private TextView playerScore;
 
 	public Boolean isPaused=false;
@@ -238,6 +239,10 @@ public class JogoActivity extends Activity {
 
 		timeLeft = (TextView) findViewById(R.id.timeLeft);
 		playerScore = (TextView) findViewById(R.id.playerScore);
+		numberPlayers = (TextView) findViewById(R.id.numberPlayers);
+		if(!online)
+			numberPlayers.setText("1");
+			
 		clock = new CountDownTimer((long)tempo*1000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
@@ -338,12 +343,13 @@ public class JogoActivity extends Activity {
 		}
 	}
 
-	public void quit(View v){
+	public void quit(final View v) throws InterruptedException{
+		isPaused=false;
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
+		pausePlay(v);
 		// set title
 		alertDialogBuilder.setTitle("Quit Game");
-
+		
 		// set dialog message
 		alertDialogBuilder
 		.setMessage("Are you sure you want to quit?")
@@ -357,6 +363,12 @@ public class JogoActivity extends Activity {
 		})
 		.setNegativeButton("No",new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
+				try {
+					pausePlay(v);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				dialog.cancel();
 			}
 		});
