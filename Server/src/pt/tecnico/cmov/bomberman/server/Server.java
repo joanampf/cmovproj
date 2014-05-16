@@ -10,9 +10,6 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
 
 import pt.tecnico.cmov.bomberman.JogoActivity;
 import pt.tecnico.cmov.bomberman.Nivel;
@@ -57,7 +54,7 @@ public class Server {
 			}
 		}).start();
 		while (numberOfPlayers != 2) {
-			System.out.print("");
+
 		} // wait for a player to join
 		new Thread(new Runnable() {
 			public void run() {
@@ -213,8 +210,21 @@ public class Server {
 					}
 				}).start();
 			}
-		}
+			//*****************************************COISAS NOVAS**************************************//
+			if (newRequest.message.equals("Quit")){
 
+				if(numberOfPlayers>1){
+					util.quitOnePlayer(newRequest.playerId, tab);
+					numberOfPlayers--;
+				}
+				if(numberOfPlayers==1){
+					outputStream[numberOfPlayers] = clientSocket.getOutputStream();
+					objectOutputStream[numberOfPlayers] = new ObjectOutputStream(outputStream[numberOfPlayers]);
+					objectOutputStream[numberOfPlayers].writeUnshared("Win");
+				}
+				//**********************************************************************************//
+			}
+		}
 		mustResendTab = true;
 	}
 
