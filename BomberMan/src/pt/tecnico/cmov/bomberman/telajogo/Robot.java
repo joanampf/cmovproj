@@ -64,7 +64,6 @@ public class Robot {
 			return true;
 		}
 		else if (tab.getTabuleiro(xseguinte, yseguinte)=='1'){
-			//lançar pop de gameover
 			return true;
 		}
 		else
@@ -75,7 +74,7 @@ public class Robot {
 	public void moveUp(Bitmap bit) {
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
 		int[] posicao = this.getPosicao(bit);
-		//verifica se na proxima posiçao existe ja um item
+		//verifica se na proxima posiï¿½ao existe ja um item
 		if (this.colisao(posicao[0]-1, posicao[1])){
 			tab.setTabuleiro(posicao[0]-1, posicao[1], 'R');
 			tab.setTabuleiro(posicao[0], posicao[1], '-');

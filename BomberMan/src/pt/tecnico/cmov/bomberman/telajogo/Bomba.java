@@ -68,8 +68,11 @@ public class Bomba {
 	
 	public void PutExplosion(int[] position, int i, char c){
 		Tabuleiro tab = JogoActivity.tabuleiroInit;
+		
 
 		if(PositionIsValid(position[0] + i, position[1])){
+			if(tab.getTabuleiro(position[0]+ i , position[1]) == 'R')
+				JogoActivity.numeroRobots--;
 			if(!(i > 1 && tab.getTabuleiro(position[0]+ i - 1, position[1]) == 'W')){
 				checkForPoints(position[0] + i, position[1]);
 				tab.setTabuleiro(position[0]+i, position[1], c);
@@ -77,6 +80,8 @@ public class Bomba {
 		}
 		
 		if(PositionIsValid(position[0], position[1]  + i)){
+			if(tab.getTabuleiro(position[0], position[1]  + i ) == 'R')
+				JogoActivity.numeroRobots--;
 			if(!(i > 1 && tab.getTabuleiro(position[0], position[1]  + i - 1) == 'W')){
 				checkForPoints(position[0], position[1]  + i);
 				tab.setTabuleiro(position[0], position[1] + i, c);
@@ -84,6 +89,8 @@ public class Bomba {
 		}
 		
 		if(PositionIsValid(position[0] - i, position[1])){
+			if(tab.getTabuleiro(position[0]- i , position[1]) == 'R')
+				JogoActivity.numeroRobots--;
 			if(!(i > 1 && tab.getTabuleiro(position[0]- i + 1, position[1]) == 'W')){
 				checkForPoints(position[0] - i, position[1]);
 				tab.setTabuleiro(position[0]-i, position[1], c);
@@ -91,6 +98,8 @@ public class Bomba {
 		}
 		
 		if(PositionIsValid(position[0], position[1]  - i)){
+			if(tab.getTabuleiro(position[0], position[1]  - i ) == 'R')
+				JogoActivity.numeroRobots--;
 			if(!(i > 1 && tab.getTabuleiro(position[0], position[1]  - i + 1) == 'W')){
 				checkForPoints(position[0], position[1]  - i);
 				tab.setTabuleiro(position[0], position[1] - i, c);
@@ -131,7 +140,6 @@ public class Bomba {
 
 		//range e 2 e ele so faz pa 1
 		for (i=1; i<range; i++){
-
 			PutExplosion(posicao, i, 'E');
 			
 		/*	if(tab.getTabuleiro(posicao[0]+i, posicao[1]) != 'W')

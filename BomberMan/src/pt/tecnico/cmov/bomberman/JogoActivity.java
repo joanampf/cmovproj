@@ -16,6 +16,7 @@ import shared.Request;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ public class JogoActivity extends Activity {
 	private TextView timeLeft;
 	private TextView numberPlayers;
 	private TextView playerScore;
+	public static int numeroRobots=0;
+
 
 	public Boolean isPaused=false;
 	public static Nivel nivel =null;
@@ -126,7 +129,7 @@ public class JogoActivity extends Activity {
 			nivel = (Nivel) objectInputStream.readObject();
 			System.out.println("My player Id is: " + myPlayerId);
 			totalPlayers++;
-			
+
 			RecieveUpdates();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -137,10 +140,21 @@ public class JogoActivity extends Activity {
 	}
 
 	public void RecieveUpdates() throws OptionalDataException, ClassNotFoundException, IOException{
+		
 		Tabuleiro newTab;
 		while ((newTab = (Tabuleiro)objectInputStream.readObject()) != null) {	
 			JogoActivity.tabuleiroInit = newTab;
 		}
+		
+//		System.out.println("chega aqui");
+//		if (((String)objectInputStream.readObject())=="Win") {	
+//			System.out.println("Ganhou");
+//			Intent i = new Intent(JogoActivity.this, MainActivity.class);
+//			startActivity(i);
+//			finish();
+//		}
+
+
 	}
 
 	public Nivel readFile() throws IOException
@@ -149,7 +163,7 @@ public class JogoActivity extends Activity {
 		InputStream in = JogoActivity.class.getResourceAsStream("gridLayout.txt");
 		BufferedReader br_aux = new BufferedReader(new InputStreamReader(in));
 		BufferedReader br  = new BufferedReader(new InputStreamReader(in));
-
+		numeroRobots++;
 
 
 		int num_colunas=0;
@@ -247,7 +261,7 @@ public class JogoActivity extends Activity {
 		numberPlayers = (TextView) findViewById(R.id.numberPlayers);
 		if(!online)
 			numberPlayers.setText("1");
-			
+
 		clock = new CountDownTimer((long)tempo*1000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
@@ -354,16 +368,39 @@ public class JogoActivity extends Activity {
 		pausePlay(v);
 		// set title
 		alertDialogBuilder.setTitle("Quit Game");
-		
+
 		// set dialog message
 		alertDialogBuilder
 		.setMessage("Are you sure you want to quit?")
 		.setCancelable(false)
 		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
+
+				// se estiver no modo online, o servidor tem de tratar a situacao de quit
+				if (online) {
+
+
+
+
+
+
+					Request newReq = new Request(myPlayerId, "Quit");
+					try {
+						objectOutputStream.writeObject(newReq);
+						objectOutputStream.reset();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					Intent intent = new Intent(JogoActivity.this, MainActivity.class);
+					startActivity(intent);
+					System.out.println("finishing current activity");
+					finish();
+
+
+				}
 				Intent i = new Intent(JogoActivity.this, MainActivity.class);
 				startActivity(i);
-							
+
 			}
 		})
 		.setNegativeButton("No",new DialogInterface.OnClickListener() {

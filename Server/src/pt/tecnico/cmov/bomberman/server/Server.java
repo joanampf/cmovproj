@@ -54,7 +54,7 @@ public class Server {
 			}
 		}).start();
 		while (numberOfPlayers != 2) {
-
+			System.out.print("");
 		} // wait for a player to join
 		new Thread(new Runnable() {
 			public void run() {
@@ -178,7 +178,7 @@ public class Server {
 		Request newRequest;
 		int thisPlayerIndex = numberOfPlayers++;
 		while ((newRequest = (Request)objectInputStream[thisPlayerIndex].readObject()) != null) {
-
+			
 			if(newRequest.message.equals("MoveUp")){
 				util.MoveUp(newRequest.playerId, tab);
 
@@ -216,11 +216,20 @@ public class Server {
 				if(numberOfPlayers>1){
 					util.quitOnePlayer(newRequest.playerId, tab);
 					numberOfPlayers--;
+				
+					
+					
 				}
+				
 				if(numberOfPlayers==1){
-					outputStream[numberOfPlayers] = clientSocket.getOutputStream();
-					objectOutputStream[numberOfPlayers] = new ObjectOutputStream(outputStream[numberOfPlayers]);
-					objectOutputStream[numberOfPlayers].writeUnshared("Win");
+					System.out.println("1 jogador tem de ganhar");
+					//win();
+//					outputStream[numberOfPlayers] = clientSocket.getOutputStream();
+//					System.out.println("dentro win");
+//					objectOutputStream[numberOfPlayers] = new ObjectOutputStream(outputStream[numberOfPlayers]);
+//					System.out.println("dentro win2");
+//					objectOutputStream[numberOfPlayers].writeUnshared("Win");
+//					System.out.println("dentro win3");
 				}
 				//**********************************************************************************//
 			}

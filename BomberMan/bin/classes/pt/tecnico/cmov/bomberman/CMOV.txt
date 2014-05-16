@@ -1,9 +1,12 @@
 single player:
-ta a desenhar os jogadores todos, só pode desenhar um
+
+tem quit, gameover e win!
 
 
 multiplayer:
-Já está sem pausa!
 
-sincronização para começar jogo (cada jogador inicia mal entra, tempos diferentes)
-quando um jogador desiste (faz quit), ele continua no tabuleiro, e preciso elimina lo
+sincronizacao para comecar jogo (cada jogador inicia mal entra, tempos diferentes)
+
+nao tem jogador 3 (numJogadores mal)
+
+nao faz win (se o jogador 2 morrer ou fizer quit, o 1 continua a jogar ate morrer ou perder, e devia fazer win)

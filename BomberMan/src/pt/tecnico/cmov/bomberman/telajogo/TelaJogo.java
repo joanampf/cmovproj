@@ -203,14 +203,23 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 						wall.draw(cv);
 						break;
 					case '1':
-					case '2':
 						bomber = new Bomberman(playerBitmap, coluna
 								* bit.getWidth() + bit.getWidth() / 2, linha
 								* bit.getHeight() + bit.getHeight() / 2);
 						bomber.draw(cv);
 						break;
-					//case '3':
+					case '2':
+						if(onlineMode){
+							bomber = new Bomberman(playerBitmap, coluna
+									* bit.getWidth() + bit.getWidth() / 2, linha
+									* bit.getHeight() + bit.getHeight() / 2);
+							bomber.draw(cv);
 						
+							
+						}
+						break;
+						//case '3':
+
 					case 'R':
 						// robots - andar aleatoriamente
 						Robot robot;
@@ -270,7 +279,7 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 			controlo = true;
 
 
-			// ve se o player est��� morto
+			// ve se o player esta morto
 			int []playerPos = tabuleiro.getPosicao(JogoActivity.myPlayerId);
 
 			if (playerPos == null){
@@ -302,6 +311,37 @@ public class TelaJogo extends SurfaceView implements SurfaceHolder.Callback {
 					e.printStackTrace();
 				}
 
+			}
+			
+			//ver se jogador ganhou em singleplayer
+			if(JogoActivity.numeroRobots==0 && (!onlineMode)){
+				try {
+					running = false;
+					currentActv.runOnUiThread(new Runnable() {
+						@SuppressWarnings("deprecation")
+						public void run() {
+							AlertDialog alertDialog = new AlertDialog.Builder(currentActv).create();
+							alertDialog.setTitle("WIN");
+							alertDialog.setCancelable(false);
+							alertDialog.setMessage("You won the game!\nYour final score is: "+ JogoActivity.score);
+							alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									Intent intent = new Intent(cont, MainActivity.class);
+									cont.startActivity(intent);
+									System.out.println("finishing current activity");
+									currentActv.finish();
+									thread.running = false;
+								}
+							});
+							alertDialog.show();
+						}
+					});
+					Thread.sleep(2000000000);
+
+
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
